@@ -16,7 +16,7 @@ var bounce_count: int = 0
 var hit_mobs: Array[Node2D] = []
 var current_origin: Vector2
 var is_tracking: bool = false
-var was_paused: bool = false # Флаг паузы
+var was_paused: bool = false # Флаг паузыs
 
 func _ready():
 	current_origin = global_position
