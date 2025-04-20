@@ -1,0 +1,94 @@
+[gd_scene load_steps=2 format=3 uid="uid://bp8nk5o4025ox"]
+
+[ext_resource type="Script" uid="uid://cps8rgri0kdsp" path="res://data/ui/ability_menu.gd" id="1_tnovu"]
+
+[node name="AbilityMenu" type="CanvasLayer"]
+script = ExtResource("1_tnovu")
+
+[node name="Panel" type="Panel" parent="."]
+unique_name_in_owner = true
+z_index = 100
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -506.0
+offset_top = -165.0
+offset_right = 506.0
+offset_bottom = 165.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Ability1" type="Button" parent="Panel"]
+unique_name_in_owner = true
+z_index = 100
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -382.0
+offset_top = -101.0
+offset_right = -155.0
+offset_bottom = 104.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 28
+text = "Fire rate
+
+[Main weapon]"
+
+[node name="Ability2" type="Button" parent="Panel"]
+unique_name_in_owner = true
+z_index = 100
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -100.0
+offset_right = 116.0
+offset_bottom = 104.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+focus_mode = 0
+theme_override_font_sizes/font_size = 28
+text = "Move speed
+
+[Player]"
+
+[node name="Ability3" type="Button" parent="Panel"]
+unique_name_in_owner = true
+z_index = 100
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 166.0
+offset_top = -99.0
+offset_right = 398.0
+offset_bottom = 104.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 28
+text = "Add weapon
+
+[Standart
+parametrs]"
+
+[connection signal="pressed" from="Panel/Ability1" to="." method="_on_ability_1_pressed"]
+[connection signal="pressed" from="Panel/Ability2" to="." method="_on_ability_2_pressed"]
+[connection signal="pressed" from="Panel/Ability3" to="." method="_on_ability_3_pressed"]

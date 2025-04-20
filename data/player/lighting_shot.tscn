@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://cne50dxi7tg0e"]
+
+[ext_resource type="Script" uid="uid://ybo6h1em7rks" path="res://data/player/lighting_shot.gd" id="1_rt6qi"]
+
+[sub_resource type="Curve" id="Curve_rt6qi"]
+_limits = [0.0, 0.51461, 0.0, 1.0]
+_data = [Vector2(0.659919, 0.51461), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uws3i"]
+radius = 1.0
+
+[node name="Lighting shot" type="Node2D"]
+script = ExtResource("1_rt6qi")
+
+[node name="Line2D" type="Line2D" parent="."]
+unique_name_in_owner = true
+width_curve = SubResource("Curve_rt6qi")
+default_color = Color(0, 0.478431, 0.764706, 1)
+
+[node name="Detector" type="Area2D" parent="."]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Detector"]
+shape = SubResource("CircleShape2D_uws3i")
+
+[node name="Timer" type="Timer" parent="Detector"]
+
+[node name="JumpDelayTimer" type="Timer" parent="."]
+unique_name_in_owner = true

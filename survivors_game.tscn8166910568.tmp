@@ -1,0 +1,113 @@
+[gd_scene load_steps=5 format=3 uid="uid://dbl7xs3egveio"]
+
+[ext_resource type="PackedScene" uid="uid://kavnvk1dga4n" path="res://player.tscn" id="1_3cish"]
+[ext_resource type="Script" uid="uid://br5g4k7841fbo" path="res://survivors_game.gd" id="1_qqaft"]
+[ext_resource type="PackedScene" uid="uid://bp8nk5o4025ox" path="res://ability_menu.tscn" id="5_7jj1j"]
+
+[sub_resource type="Curve2D" id="Curve2D_7jj1j"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -81.8974, 1137.58, 0, 0, 0, 0, 1743.96, 1149.58, 0, 0, 0, 0, 1723.8, 12.3272, 0, 0, 0, 0, -80.5534, 2.85007, 0, 0, 0, 0, -81.8974, 1137.58)
+}
+point_count = 5
+
+[node name="Game" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_qqaft")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -30
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Player" parent="." instance=ExtResource("1_3cish")]
+position = Vector2(837, 527)
+
+[node name="Camera2D2" type="Camera2D" parent="Player"]
+
+[node name="Path2D" type="Path2D" parent="Player/Camera2D2"]
+position = Vector2(-1311.13, -869.511)
+scale = Vector2(1.48807, 1.58276)
+curve = SubResource("Curve2D_7jj1j")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Player/Camera2D2/Path2D"]
+unique_name_in_owner = true
+position = Vector2(-81.8974, 1137.58)
+rotation = 0.00657216
+
+[node name="ScoreLabel" type="Label" parent="Player"]
+unique_name_in_owner = true
+z_index = 4096
+offset_left = 743.0
+offset_top = -522.0
+offset_right = 820.0
+offset_bottom = -452.0
+theme_override_colors/font_color = Color(0.380874, 0.746054, 1, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 51
+text = "0"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.6
+autostart = true
+
+[node name="GameOver" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="GameOver"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.545098)
+
+[node name="Label" type="Label" parent="GameOver/ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -319.0
+offset_top = -225.0
+offset_right = 333.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_constants/outline_size = 35
+theme_override_font_sizes/font_size = 120
+text = "Game Over"
+
+[node name="Button" type="Button" parent="GameOver/ColorRect"]
+z_index = 645
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.5
+offset_top = -56.5
+offset_right = 180.5
+offset_bottom = 56.5
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 0)
+theme_override_font_sizes/font_size = 40
+text = "Main menu"
+
+[node name="AbilityMenu" parent="." instance=ExtResource("5_7jj1j")]
+unique_name_in_owner = true
+visible = false
+
+[connection signal="health_depleted" from="Player" to="." method="_on_player_health_depleted"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="pressed" from="GameOver/ColorRect/Button" to="." method="_on_button_pressed"]

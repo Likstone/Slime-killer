@@ -1,0 +1,37 @@
+[gd_scene load_steps=3 format=3 uid="uid://c3kjygdna40as"]
+
+[ext_resource type="Script" uid="uid://75qvb1pux1in" path="res://tesla_gun.gd" id="1_g72vk"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_g72vk"]
+radius = 1142.54
+
+[node name="Tesla gun" type="Area2D"]
+script = ExtResource("1_g72vk")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+unique_name_in_owner = true
+
+[node name="ColorRect" type="ColorRect" parent="Marker2D"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -43.0
+offset_top = -38.5
+offset_right = 43.0
+offset_bottom = 38.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+color = Color(0.889933, 0, 0.0832429, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_g72vk")
+
+[node name="Fire_rate_time" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.4
+autostart = true
+
+[connection signal="timeout" from="Fire_rate_time" to="." method="_on_fire_rate_time_timeout"]

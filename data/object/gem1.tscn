@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://dkpl8nyw8glsf"]
+
+[ext_resource type="Script" uid="uid://dnd4d4ot5uqv4" path="res://data/object/gem_1.gd" id="1_phmnv"]
+[ext_resource type="Texture2D" uid="uid://betapxub2emye" path="res://assets/leveling/gem/gem.png" id="2_hsws5"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_na2qj"]
+radius = 13.0384
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ll7f1"]
+radius = 238.053
+
+[node name="Gem1" type="Area2D"]
+script = ExtResource("1_phmnv")
+speed = 500.0
+
+[node name="Gem" type="Sprite2D" parent="."]
+texture = ExtResource("2_hsws5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Gem"]
+shape = SubResource("CircleShape2D_na2qj")
+debug_color = Color(0.729209, 0.759624, 0.157271, 0.42)
+
+[node name="DetectionArea" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+visible = false
+shape = SubResource("CircleShape2D_ll7f1")

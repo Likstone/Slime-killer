@@ -1,0 +1,51 @@
+[gd_scene load_steps=5 format=3 uid="uid://d0yiv822dcivk"]
+
+[ext_resource type="Script" uid="uid://di01ocl4044wn" path="res://data/player/health_bar.gd" id="1_shmg5"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_yvsrj"]
+radius = 12.0
+height = 138.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s65gw"]
+bg_color = Color(0.310617, 0.310617, 0.310617, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_shmg5"]
+bg_color = Color(0.336833, 0.873267, 0.41456, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[node name="Health_bar" type="Area2D"]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_shmg5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
+modulate = Color(1, 0, 1, 1)
+light_mask = 3
+visibility_layer = 3
+position = Vector2(-1, 1)
+rotation = -1.5708
+shape = SubResource("CapsuleShape2D_yvsrj")
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+light_mask = 3
+visibility_layer = 3
+z_index = 574
+offset_left = -70.0
+offset_top = -11.0
+offset_right = 68.0
+offset_bottom = 13.0
+theme_override_styles/background = SubResource("StyleBoxFlat_s65gw")
+theme_override_styles/fill = SubResource("StyleBoxFlat_shmg5")
+value = 100.0
+show_percentage = false
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
