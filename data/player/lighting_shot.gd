@@ -6,9 +6,9 @@ extends Node2D
 @export var segments: int = 100
 @export var width: float = 2.0
 @export var color: Color = Color(0.7, 0.8, 1.0)
-@export var max_bounces: int = 3
-@export var bounce_range: float = 300.0
-@export var initial_target_range: float = 400.0
+@export var max_bounces: int = 0
+@export var bounce_range: float = 200.0
+@export var initial_target_range: float = 1000.0
 
 var current_target: Node2D = null
 var time_alive: float = 0.0
@@ -16,7 +16,8 @@ var bounce_count: int = 0
 var hit_mobs: Array[Node2D] = []
 var current_origin: Vector2
 var is_tracking: bool = false
-var was_paused: bool = false # Флаг паузыs
+
+var was_paused = false
 
 func _ready():
 	current_origin = global_position
@@ -26,22 +27,10 @@ func _ready():
 		return
 	start_tracking()
 	
-	# Подписываемся на уведомления о паузе
-	process_mode = Node.PROCESS_MODE_ALWAYS
 
 func _process(delta):
-	# Пропускаем обновление, если игра на паузе
-	if get_tree().paused:
-		was_paused = true
-		return
-	
-	# Если была пауза - сбрасываем таймер
-	if was_paused:
-		time_alive = 0.0
-		was_paused = false
-	
 	time_alive += delta
-	
+
 	if is_tracking:
 		queue_redraw()
 		

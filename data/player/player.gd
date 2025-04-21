@@ -243,17 +243,21 @@ func survivibility_ability():
 			health += 30
 	add_health_level += 1
 
+func update_tesla_gun_chain(new_chain: float):
+	for gun in get_tree().get_nodes_in_group("tesla_gun"):
+		gun.update_chain(new_chain)
+		gun.chain = new_chain
+
 func add_tesla_gun():	
 	var tesla_guns = tesla_gun.instantiate()
-	add_child(tesla_guns)
 	match tesla_gun_level:
-		1: pass
-		2: pass
-		3: pass
-		4: pass
-		5: pass
-		6: pass
-		7: pass
+		1: add_child(tesla_guns)
+		2: update_tesla_gun_chain(2)
+		3: update_tesla_gun_chain(3)
+		4: update_tesla_gun_chain(5)
+		5: update_tesla_gun_chain(5)
+		6: update_tesla_gun_chain(5)
+		7: update_tesla_gun_chain(6)
 		8: pass
 	tesla_gun_level+=1
 	

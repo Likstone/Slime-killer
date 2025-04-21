@@ -79,6 +79,10 @@ run/main_scene="uid://crxa4bfmh45tl"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.png"
 
+[autoload]
+
+GlobalSignal="*res://data/player/global_signal.gd"
+
 [display]
 
 window/size/viewport_width=1680

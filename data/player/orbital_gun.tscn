@@ -13,6 +13,7 @@ collision_mask = 2
 script = ExtResource("1_jkv0g")
 
 [node name="WeaponPivot" type="Marker2D" parent="."]
+unique_name_in_owner = true
 modulate = Color(1, 0.415686, 0.207843, 1)
 position = Vector2(131, 0)
 
