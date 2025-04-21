@@ -13,6 +13,16 @@ radius = 1.0
 [node name="Lighting shot" type="Node2D"]
 script = ExtResource("1_rt6qi")
 
+[node name="TrackingTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+process_callback = 0
+ignore_time_scale = true
+
+[node name="BounceTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+process_callback = 0
+ignore_time_scale = true
+
 [node name="Line2D" type="Line2D" parent="."]
 unique_name_in_owner = true
 width_curve = SubResource("Curve_rt6qi")
@@ -23,8 +33,3 @@ unique_name_in_owner = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Detector"]
 shape = SubResource("CircleShape2D_uws3i")
-
-[node name="Timer" type="Timer" parent="Detector"]
-
-[node name="JumpDelayTimer" type="Timer" parent="."]
-unique_name_in_owner = true

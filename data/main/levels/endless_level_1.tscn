@@ -146,6 +146,12 @@ position = Vector2(1375, 819)
 [node name="Mob6" parent="." instance=ExtResource("5_wmccw")]
 position = Vector2(1365, 693)
 
+[node name="Mob7" parent="." instance=ExtResource("5_wmccw")]
+position = Vector2(1420, 523)
+
+[node name="Mob8" parent="." instance=ExtResource("5_wmccw")]
+position = Vector2(1469, 273)
+
 [connection signal="health_depleted" from="Player" to="." method="_on_player_health_depleted"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="pressed" from="GameOver/ColorRect/Button" to="." method="_on_button_pressed"]

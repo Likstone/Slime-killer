@@ -1,23 +1,27 @@
 extends Area2D
 
-@onready var fire_rate : Timer = $Fire_rate_time
-@export var shoot_point: Marker2D
+@onready var my_timer : Timer = $Timer
+@export var fire_rate = 1.0
+@export var chain = 0
 
 func _ready() -> void:
 	%Marker2D.position.y -= 100
-	fire_rate.wait_time = 1
-	fire_rate.one_shot = false
-	fire_rate.start()
-	
+	my_timer.wait_time = fire_rate
+	add_to_group("tesla_gun")
+
+func update_chain(chain_count):
+	chain = chain_count
+
+func _physics_process(delta):
+	pass
+
 func shoot():
 	var enemies_in_range = get_overlapping_bodies()
-	if enemies_in_range.is_empty():
-		return
-	else:		
-		const BULLET = preload("res://data/player/lighting_shot.tscn")
+	var BULLET = preload("res://data/player/lighting_shot.tscn")
+	if enemies_in_range.size() > 0:
 		var new_bullet = BULLET.instantiate()
-		get_parent().add_child(new_bullet)
-		new_bullet.global_position = %Marker2D.global_position
-
-func _on_fire_rate_time_timeout() -> void:
+		new_bullet.max_bounces = chain
+		%Marker2D.add_child(new_bullet)
+		
+func _on_timer_timeout() -> void:
 	shoot()
