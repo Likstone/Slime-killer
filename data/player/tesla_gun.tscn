@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c3kjygdna40as"]
 
-[ext_resource type="Script" uid="uid://75qvb1pux1in" path="res://tesla_gun.gd" id="1_g72vk"]
+[ext_resource type="Script" uid="uid://75qvb1pux1in" path="res://data/player/tesla_gun.gd" id="1_g72vk"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_g72vk"]
 radius = 106.405
