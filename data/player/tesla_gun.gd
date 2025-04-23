@@ -14,8 +14,7 @@ func update_chain(chain_count):
 
 func _physics_process(delta):
 	pass
-	print(32)
-	
+
 func shoot():
 	var enemies_in_range = get_overlapping_bodies()
 	var BULLET = preload("res://data/player/lighting_shot.tscn")
