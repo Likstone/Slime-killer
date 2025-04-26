@@ -53,7 +53,7 @@ func drop_health_pack():
 func take_damage(damage):
 	%Slime.play_hurt()
 	
-	if health <= 0:
+	if health >= 0:
 		await get_tree().create_timer(0.15).timeout
 		call_deferred("queue_free")
 		const SMOKE_SCENE = preload("res://assets/smoke_explosion/smoke_explosion.tscn")

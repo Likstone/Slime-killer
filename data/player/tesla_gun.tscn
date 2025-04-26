@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://75qvb1pux1in" path="res://data/player/tesla_gun.gd" id="1_g72vk"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_g72vk"]
-radius = 106.405
+radius = 300.0
 
 [node name="Tesla gun" type="Area2D"]
 collision_layer = 0
@@ -23,6 +23,8 @@ color = Color(0.889933, 0, 0.0832429, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
+visible = false
 shape = SubResource("CircleShape2D_g72vk")
 
 [node name="Timer" type="Timer" parent="."]

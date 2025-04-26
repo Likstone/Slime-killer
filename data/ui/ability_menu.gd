@@ -3,6 +3,10 @@ extends CanvasLayer
 signal ability_selected(ability_id: int)
 signal menu_blocked  # Новый сигнал для случая, когда меню не может открыться
 
+@onready var ability_b_1 = %Ability1
+@onready var ability_b_2 = %Ability2
+@onready var ability_b_3 = %Ability3
+
 # Настройки способностей
 var abilities = {
 	1: {
@@ -39,6 +43,12 @@ var abilities = {
 		"name": "Tesla gun", 
 		"description": "Add tesla gun", 
 		"weight": 10, 
+		"max_uses": 0
+		},
+	7: {
+		"name": "Magnit", 
+		"description": "Add tesla gun", 
+		"weight": 10, 
 		"max_uses": 8
 		},
 	# ... остальные способности
@@ -46,6 +56,14 @@ var abilities = {
 
 var ability_usage = {}
 var current_abilities = []
+
+func _input(event):
+	if event.is_action_pressed("ability_1"):
+		ability_b_1.emit_signal("pressed")
+	elif event.is_action_pressed("ability_2"):
+		ability_b_2.emit_signal("pressed")
+	elif event.is_action_pressed("ability_3"):
+		ability_b_3.emit_signal("pressed")
 
 func _ready():
 	hide()

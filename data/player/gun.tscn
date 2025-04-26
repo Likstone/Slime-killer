@@ -7,7 +7,6 @@
 radius = 502.025
 
 [node name="Gun" type="Area2D"]
-visible = false
 z_index = 5
 position = Vector2(0, -8)
 collision_layer = 0
