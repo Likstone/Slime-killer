@@ -7,9 +7,9 @@ extends Node2D
 @export var width: float = 2.0
 @export var color: Color = Color(0.7, 0.8, 1.0)
 @export var max_bounces: int = 0
-@export var bounce_range: float = 200.0
-@export var initial_target_range: float = 1000.0
-
+@export var bounce_range: float = 150.0
+@export var initial_target_range: float = 0.0
+@export var target_number = 0
 var current_target: Node2D = null
 var time_alive: float = 0.0
 var bounce_count: int = 0
@@ -21,7 +21,7 @@ var was_paused = false
 
 func _ready():
 	current_origin = global_position
-	find_initial_target()
+	find_initial_target(target_number)
 	if not current_target:
 		queue_free()
 		return
@@ -63,16 +63,28 @@ func draw_lightning_segment(start: Vector2, end: Vector2):
 	for i in range(points.size()-1):
 		draw_line(points[i], points[i+1], color, width)
 
-func find_initial_target():
+func find_initial_target(target_number):
 	var mobs = get_tree().get_nodes_in_group("mobs")
-	var closest_dist = INF
-	current_target = null
+	var valid_mobs = []
 	
+	# Собираем всех мобов в радиусе атаки
 	for mob in mobs:
 		var dist = global_position.distance_to(mob.global_position)
-		if dist <= initial_target_range and dist < closest_dist:
-			closest_dist = dist
-			current_target = mob
+		if dist <= initial_target_range:
+			valid_mobs.append({"mob": mob, "distance": dist})
+	
+	# Если нет подходящих целей
+	if valid_mobs.is_empty():
+		current_target = null
+		return
+	
+	# Сортируем по расстоянию (от ближнего к дальнему)
+	valid_mobs.sort_custom(func(a, b): return a["distance"] < b["distance"])
+	
+	# Выбираем N-ого ближайшего (target_number = 0 -> первый, 1 -> второй и т.д.)
+	var selected_index = min(target_number, valid_mobs.size() - 1)
+	current_target = valid_mobs[selected_index]["mob"]
+			
 
 func find_next_target():
 	var mobs = get_tree().get_nodes_in_group("mobs")

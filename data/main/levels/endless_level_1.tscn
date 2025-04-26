@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://dbl7xs3egveio"]
+[gd_scene load_steps=9 format=3 uid="uid://dbl7xs3egveio"]
 
 [ext_resource type="Script" uid="uid://br5g4k7841fbo" path="res://data/main/levels/endless_level_1.gd" id="1_8yaop"]
 [ext_resource type="Texture2D" uid="uid://blca5uwl2f8wn" path="res://assets/textures/Brick_Texture.png" id="2_wmccw"]
 [ext_resource type="PackedScene" uid="uid://kavnvk1dga4n" path="res://data/player/player.tscn" id="3_2jrm7"]
 [ext_resource type="PackedScene" uid="uid://bp8nk5o4025ox" path="res://data/ui/ability_menu.tscn" id="4_m7hs6"]
 [ext_resource type="PackedScene" uid="uid://dakws7o0wgues" path="res://data/enemies/Dummy.tscn" id="5_wmccw"]
+[ext_resource type="PackedScene" uid="uid://dkpl8nyw8glsf" path="res://data/object/gem1.tscn" id="6_2jrm7"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_qqaft"]
 
@@ -151,6 +152,12 @@ position = Vector2(1420, 523)
 
 [node name="Mob8" parent="." instance=ExtResource("5_wmccw")]
 position = Vector2(1469, 273)
+
+[node name="Gem1" parent="." instance=ExtResource("6_2jrm7")]
+position = Vector2(1011, 823)
+
+[node name="Gem2" parent="." instance=ExtResource("6_2jrm7")]
+position = Vector2(571, 1078)
 
 [connection signal="health_depleted" from="Player" to="." method="_on_player_health_depleted"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -1,13 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://dqpp0x2kx1kk0"]
+[gd_scene load_steps=4 format=3 uid="uid://dqpp0x2kx1kk0"]
 
 [ext_resource type="Script" uid="uid://c4moqcjlsrue5" path="res://data/object/health_pack.gd" id="1_67bce"]
 [ext_resource type="Texture2D" uid="uid://h2p8gtybxlak" path="res://assets/object/heart.png" id="2_67bce"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_na2qj"]
 radius = 13.0384
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_ll7f1"]
-radius = 301.281
 
 [node name="Health pack" type="Area2D"]
 script = ExtResource("1_67bce")
@@ -16,14 +13,7 @@ script = ExtResource("1_67bce")
 scale = Vector2(2, 2)
 texture = ExtResource("2_67bce")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Health"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(2, 2)
 shape = SubResource("CircleShape2D_na2qj")
 debug_color = Color(0.729209, 0.759624, 0.157271, 0.42)
-
-[node name="DetectionArea" type="Area2D" parent="."]
-unique_name_in_owner = true
-collision_layer = 4
-collision_mask = 4
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
-shape = SubResource("CircleShape2D_ll7f1")

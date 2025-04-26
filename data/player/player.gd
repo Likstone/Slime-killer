@@ -11,15 +11,22 @@ var add_new_gun_level = 1
 
 var gun_changes
 var speed_up = 0
+var speed_up_level = 1
 var orbital_gun = preload("res://data/player/orbital_gun.tscn")
 var gun_count = 0
+
+var magnit_level = 1
 
 var tesla_gun = preload("res://data/player/tesla_gun.tscn")
 var tesla_gun_level = 1
 
+@onready var magnet_area = %Gem_magnit_area
+signal gem_entered_magnet_zone(gem)  #Сигнал входа
+signal gem_exited_magnet_zone(gem)   # Сигнал выхода
+signal gem_speed_changed(magnit_strength_value)
 
 var health_bar
-var gems_to_lvlup = 1.0
+var gems_to_lvlup = 0
 
 var autoregen = 1
 
@@ -33,6 +40,16 @@ func _ready():
 	gun_changes = get_node("/root/Game/Player/Gun")
 	health_bar = get_node("/root/Game/Player/Health_bar")
 	update_level_ui()
+	magnet_area.area_entered.connect(_on_magnet_body_entered)
+	magnet_area.area_exited.connect(_on_magnet_body_exited)
+
+func _on_magnet_body_entered(body: Node2D):
+	if body.is_in_group("gems"):
+		gem_entered_magnet_zone.emit(body)
+
+func _on_magnet_body_exited(body: Node2D):
+	if body.is_in_group("gems"):
+		gem_exited_magnet_zone.emit(body)
 
 func check_level_up():
 	var required_gems =  gems_to_lvlup * player_level
@@ -53,24 +70,8 @@ func _on_ability_selected(ability_id: int):
 		3: add_new_gun()
 		4: health_bar_attack()
 		5: survivibility_ability()
-		6: add_tesla_gun() # Сюда chain lighting / На голове у игрока появляется маленькая установка теслы
-		# (1) раз в какое то время выстреливает молния которая мгновенно примагничивается к случайному противнику
-		# (2) Молния отскакивает в ближейшего противника 1 раз
-		# (3) Молния отскакивает в ближайшего противника 2 раза
-		# (4) Молния отскакивает в ближайшего противника 3 раза
-		# (5) Молния отскакивает в ближайшего противника 4 раза
-		# (6) Молния отскакивает в ближайшего противника 5 раза
-		# (7) Молния отскакивает в ближайшего противника 6 раза
-		# (8) Монлия начинает стрелять каждые 100 (например) пикселей пройденных игроком
-		7: pass # Щелчок пальцами, в толпе мобов (приоритет на толпу) происходит щелчок / хлопок со взрвыом 
-		# (1) Радиус взрвыва больше
-		# (2) Чаще взрыв
-		# (3) Два радиуса, один маленький с двойным уроном
-		# (4) Радиус больше
-		# (5) Хлопок станин задетых врагов
-		# (6) Критическяй хлопок, с 20% шансом весь радиус наносит 2x урона
-		# (7) Радиус взрвыва больше
-		# (8) После пхлопка остается фантомная рука которая с задержкой еще раз хлопает
+		6: add_tesla_gun()
+		7: magnit_ability() 
 		8: pass # 333, артилерийский залп, в случайное место на экране с задержкой падает снаряд
 		# (1) Снарядо падает чаще
 		# (2) Снаряд падает чаще и быстрее
@@ -80,11 +81,15 @@ func _on_ability_selected(ability_id: int):
 		# (6) Радиус взрыва увеличивается двое
 		# (7) Снарядов становится 4
 		# (8) Снаряды оставляют огненную воронку который раз в секунду наносит урон всем в радиусе
-		9: pass # Магнит, увеличивает радиус подбора предметов
-		# (1) Увеличивает еще сильнее радиус подбора предметов
-		# (2) Увелчивает скорость втягивание предметов
-		# (3) Увеличивает еще сильнее радиус подбора предметов
-		# (4) Увелчивает скорость втягивание предметов
+		9: pass # Щелчок пальцами, в толпе мобов (приоритет на толпу) происходит щелчок / хлопок со взрвыом 
+		# (1) Радиус взрвыва больше
+		# (2) Чаще взрыв
+		# (3) Два радиуса, один маленький с двойным уроном
+		# (4) Радиус больше
+		# (5) Хлопок станин задетых врагов
+		# (6) Критическяй хлопок, с 20% шансом весь радиус наносит 2x урона
+		# (7) Радиус взрвыва больше
+		# (8) После пхлопка остается фантомная рука которая с задержкой еще раз хлопает
 		10: pass # Отскакивающий снаряд который врезается и летит в обратную сторону
 		# (1) Выпускает 2-а снаряда
 		# (2) Скорость движение снаряда увеличивается
@@ -100,7 +105,6 @@ func _on_ability_selected(ability_id: int):
 func update_level_ui():
 	%LevelProgressBar.value = gems_collected
 	%LevelProgressBar.max_value =  gems_to_lvlup * player_level
-
 	%LevelLabel.text = "LVL: %d" % player_level
 
 func _physics_process(delta):
@@ -108,11 +112,15 @@ func _physics_process(delta):
 	velocity = direction * (base_speed + speed_up)
 	move_and_slide()
 	
+	##################### ТЕСТ ПОТОМ УДАЛИТЬ
+	if Input.is_action_just_pressed("add_level"):
+		add_gem()
+	
 	if velocity.length() > 0.0:
 		%HappyBoo.play_walk_animation()
 	else:
 		%HappyBoo.play_idle_animation()
-	
+
 	const DAMAGE_RATE = 50.0
 	var overlapping_mobs = %HurtBox.get_overlapping_bodies()
 	if overlapping_mobs.size() > 0:
@@ -124,7 +132,7 @@ func _physics_process(delta):
 				last_knockback_time = Time.get_ticks_msec() / 1000.0
 		if health <= 0.0:
 			health_depleted.emit()
-	
+
 func add_gem():
 	gems_collected += 1
 	check_level_up()
@@ -198,11 +206,19 @@ func change_firerate_gun():
 		print("firerate is max")
 	
 func speed_up_one():
-	if speed_up <= 300:
-		speed_up += 30
-	else:
-		print("speed is max")
-		
+
+	match speed_up_level:
+		1: speed_up += 30
+		2: speed_up += 30
+		3: speed_up += 30
+		4: speed_up += 30
+		5: speed_up += 30
+		6: speed_up += 30
+		7: speed_up += 30
+		8: speed_up += 30
+
+	speed_up_level+=1
+
 func health_bar_attack():
 	health_bar.start_attack()
 
@@ -248,22 +264,52 @@ func update_tesla_gun_chain(new_chain: float):
 		gun.update_chain(new_chain)
 		gun.chain = new_chain
 
+func update_tesla_gun_attack_radius(attack_radius: float):
+	for gun in get_tree().get_nodes_in_group("tesla_gun"):
+		gun.update_attack_radius(attack_radius)
+		gun.attack_radius = attack_radius
+
+func update_tesla_gun_chain_radius(chain_radius: float):
+	for gun in get_tree().get_nodes_in_group("tesla_gun"):
+		gun.update_chain_radius(chain_radius)
+		gun.chain_radius = chain_radius
+
 func add_tesla_gun():	
 	var tesla_guns = tesla_gun.instantiate()
 	match tesla_gun_level:
 		1: add_child(tesla_guns)
 		2: update_tesla_gun_chain(2)
-		3: update_tesla_gun_chain(3)
-		4: update_tesla_gun_chain(5)
-		5: update_tesla_gun_chain(5)
-		6: update_tesla_gun_chain(5)
-		7: update_tesla_gun_chain(6)
-		8: pass
+		3: update_tesla_gun_chain_radius(300)
+		4: update_tesla_gun_chain(4)
+		5: update_tesla_gun_attack_radius(450)
+		6: update_tesla_gun_chain(6)
+		7: update_tesla_gun_attack_radius(600)
+		8: update_tesla_gun_chain(8)
 	tesla_gun_level+=1
-	
+
+func magnit_strengh(magnit_strength_value):
+	GlobalSignal.current_magnet_speed = magnit_strength_value
+	emit_signal("gem_speed_changed", magnit_strength_value)
+
+func mega_magnit():
+	for gem in get_tree().get_nodes_in_group("gems"):
+		if gem.has_method("activate_attraction"):
+			gem.activate_attraction()
+
+func magnit_ability():
+	match magnit_level:
+		1: %Gem_magnit_col.shape.radius = 200
+		2: magnit_strengh(400)
+		3: %Gem_magnit_col.shape.radius = 300
+		4: magnit_strengh(600)
+		5: %Gem_magnit_col.shape.radius = 450
+		6: magnit_strengh(800)
+		7: %Gem_magnit_col.shape.radius = 100
+		8: %Mega_magnit_activ.start()
+	magnit_level+=1
+
 func _on_timer_timeout() -> void:
 	add_health(autoregen)
 
-
-func _on_button_pressed() -> void:
-	add_gem()
+func _on_mega_magnit_activ_timeout() -> void:
+	mega_magnit()

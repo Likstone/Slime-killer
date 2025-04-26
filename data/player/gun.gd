@@ -7,7 +7,7 @@ var rotation_speed: float = 8.0
 
 @export var gun_count = 0
 @export var start_angle: float = 100.0
-@export var fire_rate = 666.6
+@export var fire_rate = 1.6
 var angle: float = 0
 
 func _ready() -> void:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://kavnvk1dga4n"]
+[gd_scene load_steps=10 format=3 uid="uid://kavnvk1dga4n"]
 
 [ext_resource type="PackedScene" uid="uid://pbmyh1qru7p" path="res://assets/characters/happy_boo/happy_boo.tscn" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://cdusx315ae3co" path="res://data/player/player.gd" id="1_onrkg"]
@@ -24,6 +24,9 @@ corner_radius_top_left = 15
 corner_radius_top_right = 15
 corner_radius_bottom_right = 15
 corner_radius_bottom_left = 15
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_253sb"]
+radius = 150.0
 
 [node name="Player" type="CharacterBody2D"]
 position = Vector2(821, 591)
@@ -89,12 +92,17 @@ vertical_alignment = 1
 [node name="Autoregen" type="Timer" parent="."]
 unique_name_in_owner = true
 
-[node name="Button" type="Button" parent="."]
-offset_left = 503.0
-offset_top = 372.0
-offset_right = 664.0
-offset_bottom = 460.0
-text = "ADD LEVEL"
+[node name="Gem_magnit_area" type="Area2D" parent="."]
+unique_name_in_owner = true
+
+[node name="Gem_magnit_col" type="CollisionShape2D" parent="Gem_magnit_area"]
+unique_name_in_owner = true
+shape = SubResource("CircleShape2D_253sb")
+debug_color = Color(0.950227, 3.85046e-07, 0.569635, 0.42)
+
+[node name="Mega_magnit_activ" type="Timer" parent="Gem_magnit_area"]
+unique_name_in_owner = true
+wait_time = 120.0
 
 [connection signal="timeout" from="Autoregen" to="." method="_on_timer_timeout"]
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="timeout" from="Gem_magnit_area/Mega_magnit_activ" to="." method="_on_mega_magnit_activ_timeout"]
