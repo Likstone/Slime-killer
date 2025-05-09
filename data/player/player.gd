@@ -26,7 +26,7 @@ signal gem_exited_magnet_zone(gem)   # Сигнал выхода
 signal gem_speed_changed(magnit_strength_value)
 
 var health_bar
-var gems_to_lvlup = 0
+var gems_to_lvlup = 3
 
 var autoregen = 1
 
@@ -34,6 +34,8 @@ var knockback_timer = 60.0
 var last_knockback_time = -knockback_timer # Инициализируем так, чтобы способность сработала сразу
 var knockback_cooldown = knockback_timer
 var knockback_is_active = false
+
+@export var world_size := Vector2(11520, 6480)
 
 func _ready():
 	add_to_group("player")
@@ -111,6 +113,7 @@ func _physics_process(delta):
 	var direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	velocity = direction * (base_speed + speed_up)
 	move_and_slide()
+	
 	
 	##################### ТЕСТ ПОТОМ УДАЛИТЬ
 	if Input.is_action_just_pressed("add_level"):
@@ -240,8 +243,10 @@ func survivibility_ability():
 	match add_health_level:
 		1: 
 			health += 30
+			health_bar.health_update(health)
 		2:
 			health += 30
+			health_bar.health_update(health)
 		3: 
 			$Autoregen.autostart = true
 			$Autoregen.start()
@@ -249,6 +254,7 @@ func survivibility_ability():
 			autoregen = 3
 		5:
 			health += 30
+			health_bar.health_update(health)
 		6:
 			autoregen = 6
 		7:
@@ -257,6 +263,7 @@ func survivibility_ability():
 			knockback_timer = 20.0
 			knockback_cooldown = knockback_timer
 			health += 30
+			health_bar.health_update(health)
 	add_health_level += 1
 
 func update_tesla_gun_chain(new_chain: float):
@@ -273,6 +280,11 @@ func update_tesla_gun_chain_radius(chain_radius: float):
 	for gun in get_tree().get_nodes_in_group("tesla_gun"):
 		gun.update_chain_radius(chain_radius)
 		gun.chain_radius = chain_radius
+		
+func update_tesla_gun_damage(tesla_damage: float):
+	for gun in get_tree().get_nodes_in_group("tesla_gun"):
+		gun.update_tesla_damage(tesla_damage)
+		gun.tesla_damage = tesla_damage
 
 func add_tesla_gun():	
 	var tesla_guns = tesla_gun.instantiate()
@@ -281,7 +293,9 @@ func add_tesla_gun():
 		2: update_tesla_gun_chain(2)
 		3: update_tesla_gun_chain_radius(300)
 		4: update_tesla_gun_chain(4)
-		5: update_tesla_gun_attack_radius(450)
+		5: 
+			update_tesla_gun_attack_radius(450)
+			update_tesla_gun_damage(4)
 		6: update_tesla_gun_chain(6)
 		7: update_tesla_gun_attack_radius(600)
 		8: update_tesla_gun_chain(8)
@@ -302,10 +316,12 @@ func magnit_ability():
 		2: magnit_strengh(400)
 		3: %Gem_magnit_col.shape.radius = 300
 		4: magnit_strengh(600)
-		5: %Gem_magnit_col.shape.radius = 450
+		5: %Gem_magnit_col.shape.radius = 400
 		6: magnit_strengh(800)
-		7: %Gem_magnit_col.shape.radius = 100
-		8: %Mega_magnit_activ.start()
+		7: %Gem_magnit_col.shape.radius = 500
+		8: 
+			mega_magnit()
+			%Mega_magnit_activ.start()
 	magnit_level+=1
 
 func _on_timer_timeout() -> void:

@@ -13,37 +13,37 @@ var abilities = {
 		"name": "Weapon firerate", 
 		"description": "Increase firerate", 
 		"weight": 10, 
-		"max_uses": 0
+		"max_uses": 8
 		},
 	2: {
 		"name": "Move speed", 
 		"description": "Increase move speed", 
 		"weight": 10, 
-		"max_uses": 0
+		"max_uses": 8
 		},
 	3: {
 		"name": "Addition orbital gun", 
 		"description": "Add addition weapon", 
-		"weight": 10, 
-		"max_uses": 0
+		"weight": 8, 
+		"max_uses": 8
 		},
 	4: {
 		"name": "Health bar attack", 
 		"description": "Spine health bar for attack", 
-		"weight": 10, 
-		"max_uses": 0
+		"weight": 8, 
+		"max_uses": 8
 		},
 	5: {
 		"name": "Survivibility", 
 		"description": "Add Survivibility", 
 		"weight": 10, 
-		"max_uses": 0
+		"max_uses": 8
 		},
 	6: {
 		"name": "Tesla gun", 
 		"description": "Add tesla gun", 
-		"weight": 10, 
-		"max_uses": 0
+		"weight": 8, 
+		"max_uses": 8
 		},
 	7: {
 		"name": "Magnit", 
@@ -51,7 +51,6 @@ var abilities = {
 		"weight": 10, 
 		"max_uses": 8
 		},
-	# ... остальные способности
 }
 
 var ability_usage = {}
@@ -139,9 +138,11 @@ func open_menu():
 	
 	show()
 	get_tree().paused = true
+	get_parent().pause_timer()
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	return true  # Возвращаем true, если меню успешно открылось
 
 func close_menu():
 	hide()
+	get_parent().unpause_timer()
 	get_tree().paused = false

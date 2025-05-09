@@ -26,7 +26,6 @@ func _ready():
 		queue_free()
 		return
 	start_tracking()
-	
 
 func _process(delta):
 	time_alive += delta

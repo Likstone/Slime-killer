@@ -18,11 +18,13 @@ gun_count = 1
 position = Vector2(116, 0)
 
 [node name="Pistol" type="Sprite2D" parent="WeaponPivot"]
+modulate = Color(0.803922, 0.145098, 0, 1)
 position = Vector2(-22.5, 8.65)
 scale = Vector2(0.842857, 0.734)
 texture = ExtResource("1_vk1bi")
 
 [node name="Pistol2" type="Sprite2D" parent="WeaponPivot"]
+modulate = Color(0.803922, 0.145098, 0, 1)
 position = Vector2(-22.58, -8.6)
 scale = Vector2(0.840571, 0.776)
 texture = ExtResource("1_vk1bi")

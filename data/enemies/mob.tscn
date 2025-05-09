@@ -4,17 +4,27 @@
 [ext_resource type="PackedScene" uid="uid://ogik4s70pgwl" path="res://assets/characters/slime/slime.tscn" id="2_to821"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_p11y5"]
-radius = 53.1507
+radius = 26.5707
 
-[node name="Mob" type="CharacterBody2D"]
+[node name="Mob" type="RigidBody2D"]
 z_index = 6
 collision_layer = 10
 collision_mask = 11
+lock_rotation = true
 script = ExtResource("1_6y7bl")
+health = 2
+mob_speed = 200.0
+distance_circle = 600.0
+speed_circle = 1000.0
 
 [node name="Slime" parent="." instance=ExtResource("2_to821")]
 unique_name_in_owner = true
+scale = Vector2(0.5, 0.5)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -29)
+position = Vector2(0, -15)
 shape = SubResource("CircleShape2D_p11y5")
+
+[node name="Dash_cooldown" type="Timer" parent="."]
+
+[connection signal="timeout" from="Dash_cooldown" to="." method="_on_dash_timeout"]
