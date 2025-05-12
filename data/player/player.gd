@@ -3,20 +3,20 @@ extends CharacterBody2D
 signal health_depleted
 var gems_collected = 0
 var player_level = 1
-@export var health = 100.0
+var health_add = 0
 var base_speed = 400
 
 var add_health_level = 1
 var add_new_gun_level = 1
 
 var gun_changes
-var speed_up = 0
+@export var speed_up = 0
 var speed_up_level = 1
 var orbital_gun = preload("res://data/player/orbital_gun.tscn")
 var gun_count = 0
 
 var magnit_level = 1
-
+var main_gun_level = 1
 var tesla_gun = preload("res://data/player/tesla_gun.tscn")
 var tesla_gun_level = 1
 
@@ -26,7 +26,7 @@ signal gem_exited_magnet_zone(gem)   # Сигнал выхода
 signal gem_speed_changed(magnit_strength_value)
 
 var health_bar
-var gems_to_lvlup = 0
+var gems_to_lvlup = 5
 
 var autoregen = 1
 
@@ -35,8 +35,11 @@ var last_knockback_time = -knockback_timer # Инициализируем так
 var knockback_cooldown = knockback_timer
 var knockback_is_active = false
 
+@export var world_size := Vector2(11520, 6480)
+
 func _ready():
 	add_to_group("player")
+	%HurtBox.add_to_group("player_hurtbox")
 	gun_changes = get_node("/root/Game/Player/Gun")
 	health_bar = get_node("/root/Game/Player/Health_bar")
 	update_level_ui()
@@ -65,7 +68,7 @@ func check_level_up():
 
 func _on_ability_selected(ability_id: int):
 	match ability_id:
-		1: change_firerate_gun()
+		1: main_gun()
 		2: speed_up_one()
 		3: add_new_gun()
 		4: health_bar_attack()
@@ -107,7 +110,7 @@ func update_level_ui():
 	%LevelProgressBar.max_value =  gems_to_lvlup * player_level
 	%LevelLabel.text = "LVL: %d" % player_level
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	var direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	velocity = direction * (base_speed + speed_up)
 	move_and_slide()
@@ -121,17 +124,15 @@ func _physics_process(delta):
 	else:
 		%HappyBoo.play_idle_animation()
 
-	const DAMAGE_RATE = 50.0
-	var overlapping_mobs = %HurtBox.get_overlapping_bodies()
-	if overlapping_mobs.size() > 0:
-		health -= DAMAGE_RATE * overlapping_mobs.size() * delta
-		health_bar.health_update(health)
-		if health <= 50 and knockback_is_active:
-			if Time.get_ticks_msec() / 1000.0 - last_knockback_time >= knockback_cooldown:
-				knockback_mobs()
-				last_knockback_time = Time.get_ticks_msec() / 1000.0
-		if health <= 0.0:
-			health_depleted.emit()
+	if health_bar.health_value <= health_bar.health_max_value/2 and knockback_is_active:
+		if Time.get_ticks_msec() / 1000.0 - last_knockback_time >= knockback_cooldown:
+			knockback_mobs()
+			last_knockback_time = Time.get_ticks_msec() / 1000.0
+	if health_bar.health_value <= 0.0:
+		health_depleted.emit()
+
+func player_take_damage(dmg):
+	health_bar.health_dmg(dmg)
 
 func add_gem():
 	gems_collected += 1
@@ -139,8 +140,7 @@ func add_gem():
 	update_level_ui()
 
 func add_health(health_add_value):
-	health += health_add_value
-	health_bar.health_update(health)
+	health_bar.health_add(health_add_value)
 
 func update_all_orbital_guns_firerate(new_firerate: float):
 	for gun in get_tree().get_nodes_in_group("orbital_guns"):
@@ -157,6 +157,11 @@ func update_all_orbital_guns_bullet_speed(bullet_speed: float):
 		gun.change_bullet_speed(bullet_speed)
 		gun.bullet_speed = bullet_speed
 
+func update_all_orbital_guns_damage(damage: float):
+	for gun in get_tree().get_nodes_in_group("orbital_guns"):
+		gun.change_damage(damage)
+		gun.damage = damage
+
 func add_new_gun():	
 	var orbital_guns = orbital_gun.instantiate()
 	match add_new_gun_level:
@@ -165,14 +170,16 @@ func add_new_gun():
 			orbital_guns.angle = 0
 			orbital_guns.gun_count = gun_count
 			add_child(orbital_guns)
+			update_all_orbital_guns_damage(1)
 		2: 
-			update_all_orbital_guns_firerate(0.9)
+			update_all_orbital_guns_firerate(1.2)
 		3: 
 			update_all_orbital_guns_rotation_speed(12.0)
 		4: 
-			update_all_orbital_guns_firerate(0.8)
+			update_all_orbital_guns_firerate(1.0)
+			update_all_orbital_guns_damage(2)
 		5:
-			update_all_orbital_guns_firerate(0.7)
+			update_all_orbital_guns_firerate(0.8)
 			update_all_orbital_guns_bullet_speed(2500)
 		6:
 			gun_count += 1
@@ -181,6 +188,7 @@ func add_new_gun():
 			add_child(orbital_guns)
 			update_all_orbital_guns_firerate(0.7)
 			update_all_orbital_guns_bullet_speed(2500)
+			update_all_orbital_guns_damage(2)
 		7:
 			gun_count += 1
 			orbital_guns.angle += deg_to_rad(90)
@@ -188,6 +196,7 @@ func add_new_gun():
 			add_child(orbital_guns)
 			update_all_orbital_guns_firerate(0.7)
 			update_all_orbital_guns_bullet_speed(2500)
+			update_all_orbital_guns_damage(3)
 		8:
 			gun_count += 1
 			orbital_guns.angle += deg_to_rad(90)
@@ -195,16 +204,41 @@ func add_new_gun():
 			add_child(orbital_guns)
 			update_all_orbital_guns_firerate(0.7)
 			update_all_orbital_guns_bullet_speed(2500)
+			update_all_orbital_guns_damage(3)
 			
 	add_new_gun_level += 1
 	
-func change_firerate_gun():
-	var gun = %Gun
-	if gun.my_timer.wait_time >= 0.1:
-		gun.my_timer.wait_time -= 0.05
-	else:
-		print("firerate is max")
-	
+func change_firerate_gun(fire_rate_main):
+	var gun1 = %Gun
+	var gun2 = %Gun2
+	gun1.my_timer.wait_time = fire_rate_main
+	gun2.my_timer.wait_time = fire_rate_main
+
+func update_all_main_gun_bullet_count(bullet_count: float):
+	for gun in get_tree().get_nodes_in_group("main_guns"):
+		gun.change_bullet_count(bullet_count)
+		gun.bullet_count = bullet_count
+
+func main_gun():
+	match main_gun_level:
+		1: 
+			change_firerate_gun(0.6)
+		2:
+			update_all_main_gun_bullet_count(2)
+		3: 
+			change_firerate_gun(0.5)
+		4: 
+			update_all_main_gun_bullet_count(3)
+		5:
+			change_firerate_gun(0.3)
+		6:
+			update_all_main_gun_bullet_count(4)
+		7:
+			change_firerate_gun(0.2)
+		8:
+			update_all_main_gun_bullet_count(5)
+	main_gun_level += 1
+
 func speed_up_one():
 
 	match speed_up_level:
@@ -239,24 +273,28 @@ func knockback_mobs():
 func survivibility_ability():
 	match add_health_level:
 		1: 
-			health += 30
+			health_bar.health_max_add(30)
+			health_bar.health_add(30)
 		2:
-			health += 30
+			health_bar.health_max_add(30)
+			health_bar.health_add(30)
 		3: 
 			$Autoregen.autostart = true
 			$Autoregen.start()
 		4: 
-			autoregen = 3
+			autoregen = 2
 		5:
-			health += 30
+			health_bar.health_max_add(30)
+			health_bar.health_add(30)
 		6:
-			autoregen = 6
+			autoregen = 3
 		7:
 			knockback_is_active = true
 		8:
 			knockback_timer = 20.0
 			knockback_cooldown = knockback_timer
-			health += 30
+			health_bar.health_max_add(30)
+			health_bar.health_add(30)
 	add_health_level += 1
 
 func update_tesla_gun_chain(new_chain: float):
@@ -273,6 +311,11 @@ func update_tesla_gun_chain_radius(chain_radius: float):
 	for gun in get_tree().get_nodes_in_group("tesla_gun"):
 		gun.update_chain_radius(chain_radius)
 		gun.chain_radius = chain_radius
+		
+func update_tesla_gun_damage(tesla_damage: float):
+	for gun in get_tree().get_nodes_in_group("tesla_gun"):
+		gun.update_tesla_damage(tesla_damage)
+		gun.tesla_damage = tesla_damage
 
 func add_tesla_gun():	
 	var tesla_guns = tesla_gun.instantiate()
@@ -281,7 +324,9 @@ func add_tesla_gun():
 		2: update_tesla_gun_chain(2)
 		3: update_tesla_gun_chain_radius(300)
 		4: update_tesla_gun_chain(4)
-		5: update_tesla_gun_attack_radius(450)
+		5: 
+			update_tesla_gun_attack_radius(450)
+			update_tesla_gun_damage(4)
 		6: update_tesla_gun_chain(6)
 		7: update_tesla_gun_attack_radius(600)
 		8: update_tesla_gun_chain(8)
@@ -298,14 +343,18 @@ func mega_magnit():
 
 func magnit_ability():
 	match magnit_level:
-		1: %Gem_magnit_col.shape.radius = 200
+		1: 
+			%Gem_magnit_col.shape.radius = 200
+			magnit_strengh(200)
 		2: magnit_strengh(400)
 		3: %Gem_magnit_col.shape.radius = 300
 		4: magnit_strengh(600)
-		5: %Gem_magnit_col.shape.radius = 450
+		5: %Gem_magnit_col.shape.radius = 400
 		6: magnit_strengh(800)
-		7: %Gem_magnit_col.shape.radius = 100
-		8: %Mega_magnit_activ.start()
+		7: %Gem_magnit_col.shape.radius = 500
+		8: 
+			mega_magnit()
+			%Mega_magnit_activ.start()
 	magnit_level+=1
 
 func _on_timer_timeout() -> void:

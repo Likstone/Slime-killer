@@ -31,4 +31,8 @@ shape = SubResource("CircleShape2D_g72vk")
 unique_name_in_owner = true
 autostart = true
 
+[node name="overdrive_timer" type="Timer" parent="."]
+wait_time = 10.0
+
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="overdrive_timer" to="." method="_on_overdrive_timer_timeout"]

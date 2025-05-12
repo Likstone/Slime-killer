@@ -53,13 +53,13 @@ func drop_health_pack():
 func take_damage(damage):
 	%Slime.play_hurt()
 	
-	if health >= 0:
-		await get_tree().create_timer(0.15).timeout
-		call_deferred("queue_free")
-		const SMOKE_SCENE = preload("res://assets/smoke_explosion/smoke_explosion.tscn")
-		var smoke = SMOKE_SCENE.instantiate()
-		get_parent().add_child(smoke)
-		smoke.global_position = global_position    
-		emit_signal("mob_died")
-		drop_health_pack()
-		drop_gem()
+	#if health >= 0:
+		#await get_tree().create_timer(0.15).timeout
+		#call_deferred("queue_free")
+		#const SMOKE_SCENE = preload("res://assets/smoke_explosion/smoke_explosion.tscn")
+		#var smoke = SMOKE_SCENE.instantiate()
+		#get_parent().add_child(smoke)
+		#smoke.global_position = global_position    
+		#emit_signal("mob_died")
+		#drop_health_pack()
+		#drop_gem()

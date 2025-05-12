@@ -30,10 +30,10 @@ noise = SubResource("FastNoiseLite_ti4n0")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dssfe"]
 resource_local_to_scene = true
 shader = ExtResource("1_bmef6")
-shader_parameter/offset = 2.0
-shader_parameter/texture_offset = Vector2(0, 0)
 shader_parameter/voronoi_sampler = SubResource("NoiseTexture2D_uji5e")
 shader_parameter/edge_curve = SubResource("CurveTexture_p664q")
+shader_parameter/offset = 2.0
+shader_parameter/texture_offset = Vector2(0, 0)
 shader_parameter/color_gradient = SubResource("GradientTexture1D_mxd0d")
 
 [sub_resource type="Animation" id="Animation_6fv2e"]
@@ -116,11 +116,12 @@ tracks/2/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8msef"]
 _data = {
-"RESET": SubResource("Animation_6fv2e"),
-"explosion": SubResource("Animation_viyco")
+&"RESET": SubResource("Animation_6fv2e"),
+&"explosion": SubResource("Animation_viyco")
 }
 
 [node name="SmokeExplosion" type="Node2D"]
+modulate = Color(1, 1, 1, 0.392157)
 z_index = 10
 script = ExtResource("1_kb8ql")
 
@@ -144,7 +145,7 @@ color = Color(0.568627, 0.568627, 0.568627, 1)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
-autoplay = "RESET"
 libraries = {
-"": SubResource("AnimationLibrary_8msef")
+&"": SubResource("AnimationLibrary_8msef")
 }
+autoplay = "RESET"

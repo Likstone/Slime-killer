@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3 uid="uid://bmrius3ievctb"]
+
+[ext_resource type="PackedScene" uid="uid://b5vss67hwpohl" path="res://data/enemies/mob.tscn" id="1_l8euk"]
+
+[node name="Mob" instance=ExtResource("1_l8euk")]
+position = Vector2(0, -1)
+mass = 10.0
+Health = 200
+distance_circle = 550.0
+speed_circle = 1400.0
+circle_active = true
+mass_body = 50.0
+mob_damage_rate = 10
+
+[node name="Slime" parent="." index="0"]
+modulate = Color(0.552941, 0.0980392, 0.843137, 1)
+position = Vector2(-1, 39)
+scale = Vector2(1.5, 1.5)
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2(-1, -5)
+scale = Vector2(2.925, 2.925)
+
+[node name="CollisionShape2D" parent="Area2D" index="0"]
+position = Vector2(0, -4.46)
+scale = Vector2(2.915, 2.915)

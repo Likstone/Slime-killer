@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://b1v8s432xs24r"]
+
+[ext_resource type="PackedScene" uid="uid://b5vss67hwpohl" path="res://data/enemies/mob.tscn" id="1_sgd8d"]
+
+[node name="Mob" instance=ExtResource("1_sgd8d")]
+modulate = Color(1, 0.266667, 0, 1)
+mass = 2.0
+Health = 20
+mob_speed = 20.0
+distance_dash = 3000.0
+distance_circle = 800.0
+speed_circle = 1200.0
+circle_active = true
+circle_dash_cooldown_time = 10.0
+mass_body = 100.0
+mob_damage_rate = 5
+
+[node name="CollisionShape2D" parent="." index="1"]
+visible = false

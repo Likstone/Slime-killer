@@ -10,3 +10,5 @@ func play_idle():
 func play_hurt():
 	%AnimationPlayer.play("hurt")
 	%AnimationPlayer.queue("walk")
+func play_scary():
+	%AnimationPlayer.play("scary")

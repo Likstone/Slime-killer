@@ -3,8 +3,9 @@
 [ext_resource type="Script" uid="uid://d0y4mgqt8hfaf" path="res://data/player/bullet.gd" id="1_btiu8"]
 [ext_resource type="Texture2D" uid="uid://dftkbqwsfd68r" path="res://assets/pistol/projectile.png" id="2_qawrg"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_2b2rl"]
-radius = 12.1655
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1su37"]
+radius = 9.99999
+height = 82.0064
 
 [node name="Bullet" type="Area2D"]
 top_level = true
@@ -18,7 +19,8 @@ scale = Vector2(0.64, 0.714286)
 texture = ExtResource("2_qawrg")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-5, -1)
-shape = SubResource("CircleShape2D_2b2rl")
+position = Vector2(-36, -9.31326e-09)
+rotation = 1.56973
+shape = SubResource("CapsuleShape2D_1su37")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

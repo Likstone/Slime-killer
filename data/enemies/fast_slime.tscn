@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://den7bfw7yyg02"]
+
+[ext_resource type="PackedScene" uid="uid://b5vss67hwpohl" path="res://data/enemies/mob.tscn" id="1_d2n7i"]
+
+[node name="Mob" instance=ExtResource("1_d2n7i")]
+mass = 0.5
+Health = 1
+mob_speed = 600.0
+boom_slime = true
+mob_damage_rate = 20
+
+[node name="Slime" parent="." index="0"]
+modulate = Color(0.860921, 0, 0.26344, 1)
+
+[node name="CollisionShape2D" parent="." index="1"]
+visible = false

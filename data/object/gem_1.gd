@@ -1,7 +1,7 @@
 extends Area2D
 
 @export var speed: float = 0.0
-@export var pickup_distance: float = 10.0
+@export var pickup_distance: float = 50.0
 
 var player: Node2D = null
 var is_attracted: bool = false
