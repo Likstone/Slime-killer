@@ -452,6 +452,55 @@ theme_override_colors/font_disabled_color = Color(0, 0, 0, 0)
 theme_override_font_sizes/font_size = 40
 text = "Main menu"
 
+[node name="Victory" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="Victory"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.388632, 0.432881, 0.460876, 0.219608)
+
+[node name="Label" type="Label" parent="Victory/ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -204.0
+offset_top = -236.0
+offset_right = 200.0
+offset_bottom = -61.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_constants/outline_size = 35
+theme_override_font_sizes/font_size = 120
+text = "Victory"
+
+[node name="Button" type="Button" parent="Victory/ColorRect"]
+z_index = 645
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.5
+offset_top = -56.5
+offset_right = 180.5
+offset_bottom = 56.5
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 0)
+theme_override_font_sizes/font_size = 40
+text = "Main menu"
+
 [node name="AbilityMenu" parent="." instance=ExtResource("4_m7hs6")]
 unique_name_in_owner = true
 visible = false
@@ -464,6 +513,7 @@ wait_time = 0.05
 
 [connection signal="health_depleted" from="Player" to="." method="_on_player_health_depleted"]
 [connection signal="pressed" from="GameOver/ColorRect/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Victory/ColorRect/Button" to="." method="_on_button_pressed"]
 [connection signal="timeout" from="slime_spawn_1" to="." method="_on_slime_spawn_1_timeout"]
 [connection signal="timeout" from="slime_spawn_2" to="." method="_on_slime_spawn_1_timeout"]
 [connection signal="timeout" from="slime_spawn_2" to="." method="_on_slime_spawn_2_timeout"]

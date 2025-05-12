@@ -5,11 +5,12 @@
 [ext_resource type="PackedScene" uid="uid://5lhq1cads6kq" path="res://data/player/gun.tscn" id="2_i3pqv"]
 [ext_resource type="PackedScene" uid="uid://d0yiv822dcivk" path="res://data/player/health_bar.tscn" id="4_253sb"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_onrkg"]
-radius = 24.1868
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_253sb"]
+radius = 27.7698
+height = 75.3751
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_253sb"]
-size = Vector2(64, 70.9122)
+size = Vector2(66, 86.7805)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_253sb"]
 bg_color = Color(0.6, 0.6, 0.6, 0.235294)
@@ -46,8 +47,9 @@ script = ExtResource("1_onrkg")
 unique_name_in_owner = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -2)
-shape = SubResource("CircleShape2D_onrkg")
+position = Vector2(-1, -39.6711)
+rotation = -3.14159
+shape = SubResource("CapsuleShape2D_253sb")
 debug_color = Color(1, 1, 1, 0.42)
 
 [node name="Gun" parent="." instance=ExtResource("2_i3pqv")]
@@ -55,13 +57,17 @@ unique_name_in_owner = true
 position = Vector2(-2, -61)
 gun_count = 0
 
+[node name="Gun2" parent="." instance=ExtResource("2_i3pqv")]
+unique_name_in_owner = true
+position = Vector2(-2, -61)
+
 [node name="HurtBox" type="Area2D" parent="."]
 unique_name_in_owner = true
-collision_layer = 0
-collision_mask = 2
+collision_layer = 2048
+collision_mask = 2048
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
-position = Vector2(0, -12.1492)
+position = Vector2(-1, -39.6711)
 shape = SubResource("RectangleShape2D_253sb")
 debug_color = Color(0.664707, 0, 0.0450594, 0.42)
 

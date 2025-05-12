@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://b5vss67hwpohl" path="res://data/enemies/mob.tscn" id="1_x17qv"]
 
 [node name="Mob" instance=ExtResource("1_x17qv")]
-health = 5
+Health = 6
 mass_body = 5.0
 
 [node name="Slime" parent="." index="0"]

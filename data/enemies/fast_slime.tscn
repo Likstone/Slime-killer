@@ -4,8 +4,10 @@
 
 [node name="Mob" instance=ExtResource("1_d2n7i")]
 mass = 0.5
-health = 1
+Health = 1
 mob_speed = 600.0
+boom_slime = true
+mob_damage_rate = 20
 
 [node name="Slime" parent="." index="0"]
 modulate = Color(0.860921, 0, 0.26344, 1)

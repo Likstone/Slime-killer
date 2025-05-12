@@ -62,7 +62,7 @@ func draw_lightning_segment(start: Vector2, end: Vector2):
 	for i in range(points.size()-1):
 		draw_line(points[i], points[i+1], color, width)
 
-func find_initial_target(target_number):
+func find_initial_target(target_number_select):
 	var mobs = get_tree().get_nodes_in_group("mobs")
 	var valid_mobs = []
 	
@@ -80,8 +80,8 @@ func find_initial_target(target_number):
 	# Сортируем по расстоянию (от ближнего к дальнему)
 	valid_mobs.sort_custom(func(a, b): return a["distance"] < b["distance"])
 	
-	# Выбираем N-ого ближайшего (target_number = 0 -> первый, 1 -> второй и т.д.)
-	var selected_index = min(target_number, valid_mobs.size() - 1)
+	# Выбираем N-ого ближайшего (target_number_select = 0 -> первый, 1 -> второй и т.д.)
+	var selected_index = min(target_number_select, valid_mobs.size() - 1)
 	current_target = valid_mobs[selected_index]["mob"]
 			
 

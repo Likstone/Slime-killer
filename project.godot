@@ -75,7 +75,7 @@ Settings/Show_Tooltips=true
 [application]
 
 config/name="Vampire survival like try 1"
-run/main_scene="uid://dbl7xs3egveio"
+run/main_scene="uid://crxa4bfmh45tl"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.png"
 

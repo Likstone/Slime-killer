@@ -10,7 +10,7 @@ signal menu_blocked  # Новый сигнал для случая, когда �
 # Настройки способностей
 var abilities = {
 	1: {
-		"name": "Weapon firerate", 
+		"name": "Main pislols", 
 		"description": "Increase firerate", 
 		"weight": 10, 
 		"max_uses": 8
@@ -47,7 +47,7 @@ var abilities = {
 		},
 	7: {
 		"name": "Magnit", 
-		"description": "Add tesla gun", 
+		"description": "Add magnit", 
 		"weight": 10, 
 		"max_uses": 8
 		},

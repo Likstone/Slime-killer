@@ -19,7 +19,9 @@ var transition_progress := 0.0
 var new_orbit_center = Vector2(0, -50)  # Новый центр (пример)
 var center_transition_progress = 0.0 # Прогресс смещения центра
 var center_transition_speed = 1.0
-var player
+
+@export var health_value = 0
+@export var health_max_value = 0
 
 var level = 1
 var damage = 1
@@ -27,7 +29,8 @@ var ignore_delta_in_rotation := false
 func _ready():
 	# Запоминаем начальное смещение относительно центра орбиты
 	initial_offset = position - (orbit_center_offset + Vector2(0, 130))
-	player = get_node("/root/Game/Player")
+	health_value = %HealthBar.value
+	health_max_value = %HealthBar.max_value
 
 func _process(delta):
 	match current_mode:
@@ -73,8 +76,11 @@ func _on_body_entered(body: Node2D) -> void:
 func start_attack():
 	current_mode = MODE.ATTACK
 	match level:
-		1: orbit_speed = 6
+		1: 
+			orbit_speed = 6
+			%HealthBar.modulate = Color(1.0, 0.87, 0.87)
 		2: 
+			%HealthBar.modulate = Color(1.0, 0.75, 0.75)
 			%HealthBar.custom_minimum_size = Vector2(120, 20)
 			%HealthBar.scale = Vector2(1.5, 1.5)
 			if %CollisionShape2D.shape is CapsuleShape2D:
@@ -82,31 +88,46 @@ func start_attack():
 				%CollisionShape2D.shape.height *= 1.5
 				$CollisionShape2D.position = Vector2(35, 5)
 		3: 
+			%HealthBar.modulate = Color(1.0, 0.6, 0.6)
 			%HealthBar.custom_minimum_size = Vector2(160, 20)
 			%HealthBar.scale = Vector2(1.5, 1.5)
 			if %CollisionShape2D.shape is CapsuleShape2D:
 				%CollisionShape2D.shape.radius *= 1.2
 				%CollisionShape2D.shape.height = 235
 				$CollisionShape2D.position = Vector2(55, 5)
-		4: orbit_speed = 8
-		5: orbit_speed = 10
-		6: ignore_delta_in_rotation = true
+		4: 
+			orbit_speed = 8
+			%HealthBar.modulate = Color(1.0, 0.43, 0.43, 0.903)
+		5: 
+			orbit_speed = 10
+			%HealthBar.modulate = Color(1.0, 0.34, 0.34, 0.803)
+		6: 
+			ignore_delta_in_rotation = true
+			%HealthBar.modulate = Color(1.0, 0.27, 0.27, 0.703)
 		7: 
+			%HealthBar.modulate = Color(1.0, 0.17, 0.17, 0.603)
 			orbit_speed = 12
 			orbit_radius += 120
 			self_rotation_speed = 45
 		8: 
-			if player.health >= 200:
-				damage = 4
+			%HealthBar.modulate = Color(1.0, 0.12, 0.12, 0.503)
+			if %HealthBar.max_value >= 200:
+				damage = 3
 			else:
 				damage = 2
 	level+=1
 
-func max_hp():
-	damage = 4
-
 func end_attack():
 	current_mode = MODE.STATIK
 
-func health_update(health):
-	%HealthBar.value = health
+func health_max_add(health):
+	%HealthBar.max_value += health
+	health_max_value = %HealthBar.max_value
+
+func health_dmg(dmg):
+	%HealthBar.value -= dmg
+	health_value = %HealthBar.value
+
+func health_add(health):
+	%HealthBar.value += health
+	health_value = %HealthBar.value

@@ -1,0 +1,72 @@
+[gd_scene load_steps=5 format=3 uid="uid://bbs6lxif1ycip"]
+
+[ext_resource type="Script" uid="uid://bj001ahwnbcia" path="res://data/enemies/slime_boss.gd" id="1_evwwx"]
+[ext_resource type="PackedScene" uid="uid://ogik4s70pgwl" path="res://assets/characters/slime/slime.tscn" id="2_to821"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_p11y5"]
+radius = 149.215
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_evwwx"]
+radius = 160.153
+
+[node name="Mob" type="RigidBody2D"]
+z_index = 6
+collision_layer = 2
+collision_mask = 0
+gravity_scale = 0.0
+can_sleep = false
+lock_rotation = true
+script = ExtResource("1_evwwx")
+Health = 1800
+mob_speed = 240.0
+mass_body = 130.0
+dash_duration = 0.3
+mob_damage_rate = 15
+
+[node name="Slime" parent="." instance=ExtResource("2_to821")]
+unique_name_in_owner = true
+modulate = Color(0, 0.0333333, 1, 1)
+position = Vector2(0, 95)
+scale = Vector2(3, 3)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 2)
+shape = SubResource("CircleShape2D_p11y5")
+debug_color = Color(0.229597, 0.508791, 1, 0.42)
+
+[node name="stun_timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="prepare_timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="cooldown_timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="dash_timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="boss_spawner" type="Marker2D" parent="."]
+unique_name_in_owner = true
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2048
+collision_mask = 2048
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_evwwx")
+one_way_collision_margin = 59.7
+debug_color = Color(0.981239, 0, 0.372793, 0.42)
+
+[node name="attack_rate" type="Timer" parent="."]
+wait_time = 0.1
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="stun_timer" to="." method="_on_stun_timer_timeout"]
+[connection signal="timeout" from="prepare_timer" to="." method="_on_prepare_timer_timeout"]
+[connection signal="timeout" from="cooldown_timer" to="." method="_on_cooldown_timer_timeout"]
+[connection signal="timeout" from="dash_timer" to="." method="_on_dash_timer_timeout"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]
+[connection signal="timeout" from="attack_rate" to="." method="_on_attack_rate_timeout"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://b5vss67hwpohl"]
+[gd_scene load_steps=5 format=3 uid="uid://b5vss67hwpohl"]
 
 [ext_resource type="Script" uid="uid://cywg7vgxe0ow8" path="res://data/enemies/mob.gd" id="1_6y7bl"]
 [ext_resource type="PackedScene" uid="uid://ogik4s70pgwl" path="res://assets/characters/slime/slime.tscn" id="2_to821"]
@@ -6,16 +6,22 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_p11y5"]
 radius = 26.5707
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_6y7bl"]
+radius = 27.0
+
 [node name="Mob" type="RigidBody2D"]
 z_index = 6
 collision_layer = 10
 collision_mask = 11
 lock_rotation = true
 script = ExtResource("1_6y7bl")
-health = 2
+Health = 2
+drop_chance = 0.9
 mob_speed = 200.0
 distance_circle = 600.0
 speed_circle = 1000.0
+circle_dash_cooldown_time = 2.0
+mob_damage_rate = 3
 
 [node name="Slime" parent="." instance=ExtResource("2_to821")]
 unique_name_in_owner = true
@@ -27,4 +33,21 @@ shape = SubResource("CircleShape2D_p11y5")
 
 [node name="Dash_cooldown" type="Timer" parent="."]
 
+[node name="attack_rate" type="Timer" parent="."]
+wait_time = 0.1
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2048
+collision_mask = 2048
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -15)
+shape = SubResource("CircleShape2D_6y7bl")
+one_way_collision_margin = 59.7
+debug_color = Color(0.981239, 0, 0.372793, 0.42)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="Dash_cooldown" to="." method="_on_dash_timeout"]
+[connection signal="timeout" from="attack_rate" to="." method="_on_attack_rate_timeout"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]
