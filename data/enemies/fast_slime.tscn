@@ -11,6 +11,3 @@ mob_damage_rate = 20
 
 [node name="Slime" parent="." index="0"]
 modulate = Color(0.860921, 0, 0.26344, 1)
-
-[node name="CollisionShape2D" parent="." index="1"]
-visible = false

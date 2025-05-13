@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cgmp4ras6ipbc"
-path="res://.godot/imported/Stonewall_Texture.png-9ea47d76dbd61ec711353a7bea9627af.ctex"
+uid="uid://b08yrkb82slde"
+path="res://.godot/imported/Pistols.png-f3a20e292cef3361e290a8e2b897c88c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/Stonewall_Texture.png"
-dest_files=["res://.godot/imported/Stonewall_Texture.png-9ea47d76dbd61ec711353a7bea9627af.ctex"]
+source_file="res://assets/characters/ability/icons/Pistols.png"
+dest_files=["res://.godot/imported/Pistols.png-f3a20e292cef3361e290a8e2b897c88c.ctex"]
 
 [params]
 

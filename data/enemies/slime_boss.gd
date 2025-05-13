@@ -27,6 +27,15 @@ var spawn_point_choice
 var max_hp
 var state_attack = ""
 var cooldown_attack_flag = true
+@onready var sprite = $Slime
+var original_scale: Vector2 = Vector2(3, 3)
+var squash_scale: Vector2 = Vector2(3.5, 2.4)  # Приплюснутое состояние
+var stretch_scale: Vector2 = Vector2(2.4, 3.3)  # Вытянутое состояние
+var tween: Tween
+
+var original_modulate: Color
+var damage_modulate: Color = Color(0.60, 0.25, 0.9)  # Красный оттенок
+var damage_tween: Tween
 
 @export var rage_dash_count = 4
 var rage_dash_remaining = rage_dash_count
@@ -59,10 +68,13 @@ signal mob_died
 signal boss_died
 
 func _ready() -> void:
+	%Slime.play_boss_walk()
+	original_modulate = sprite.modulate
 	contact_monitor = true
 	linear_damp = 0.5
 	randomize()
 	max_contacts_reported = 1
+	add_to_group("mobs")
 	add_to_group("boss")  # Важно для обнаружения игроком
 	mass = mass_body
 	max_hp = Health
@@ -84,19 +96,52 @@ func _physics_process(_delta):
 					_start_prepare(1, "dash")
 					cooldown_attack_flag = false
 			State.DASHING:
-				pass
+				_squash_effect()
 				
 			State.PREPARE:
+				_stretch_effect()
+			_:
+				_reset_shape()
 				if rage_flag:
 					dash_force = 275000
 					dash_duration = 0.2
 					linear_damp = 0.8
-			State.COOLDOWN:
-				pass
+
+func _squash_effect():
+	if tween: tween.kill()
+	tween = create_tween()
+	tween.set_ease(Tween.EASE_OUT)
+	tween.set_trans(Tween.TRANS_BACK)
+	tween.tween_property(sprite, "scale", squash_scale, 0.2)
+
+func _stretch_effect():
+	if tween: tween.kill()
+	tween = create_tween()
+	tween.set_ease(Tween.EASE_OUT)
+	tween.set_trans(Tween.TRANS_ELASTIC)
+	tween.tween_property(sprite, "scale", stretch_scale, dash_duration * 0.5)
+	tween.tween_property(sprite, "scale", original_scale, dash_duration * 0.5)
+
+func _reset_shape():
+	if tween: tween.kill()
+	tween = create_tween()
+	tween.tween_property(sprite, "scale", original_scale, 0.2)
 
 func _chasing_player():
 	if distance > min_stop_distance:
 		linear_velocity = direction * mob_speed
+
+func _flash_red():
+	if damage_tween: damage_tween.kill()
+	
+	damage_tween = create_tween()
+	damage_tween.set_trans(Tween.TRANS_SINE)
+	damage_tween.set_ease(Tween.EASE_OUT)
+	
+	# Быстро меняем на красный
+	damage_tween.tween_property(sprite, "modulate", damage_modulate, 0.1)
+	# Затем плавно возвращаем обратно
+	damage_tween.tween_property(sprite, "modulate", original_modulate, 0.2)
 
 func _start_dash():
 	current_state = State.DASHING
@@ -115,6 +160,7 @@ func _start_prepare(prepare_duration, attack_type):
 
 func take_damage(damage):
 	Health -= damage
+	_flash_red()
 	
 	if Health <= 0:
 		await get_tree().create_timer(0.15).timeout

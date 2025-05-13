@@ -8,12 +8,13 @@ var base_speed = 400
 
 var add_health_level = 1
 var add_new_gun_level = 1
-
+var health_bar_level = 1
 var gun_changes
 @export var speed_up = 0
 var speed_up_level = 1
 var orbital_gun = preload("res://data/player/orbital_gun.tscn")
 var gun_count = 0
+var ability_menu = preload("res://data/ui/ability_menu.tscn")
 
 var magnit_level = 1
 var main_gun_level = 1
@@ -35,16 +36,35 @@ var last_knockback_time = -knockback_timer # Инициализируем так
 var knockback_cooldown = knockback_timer
 var knockback_is_active = false
 
+var sprite
+var original_modulate: Color
+var damage_modulate: Color = Color(1.0, 0.231, 0.0)  # Красный оттенок
+var damage_tween: Tween
+
 @export var world_size := Vector2(11520, 6480)
 
 func _ready():
 	add_to_group("player")
+	sprite = %HappyBoo
+	original_modulate = sprite.modulate
 	%HurtBox.add_to_group("player_hurtbox")
 	gun_changes = get_node("/root/Game/Player/Gun")
 	health_bar = get_node("/root/Game/Player/Health_bar")
 	update_level_ui()
 	magnet_area.area_entered.connect(_on_magnet_body_entered)
 	magnet_area.area_exited.connect(_on_magnet_body_exited)
+
+func _flash_red():
+	if damage_tween: damage_tween.kill()
+	
+	damage_tween = create_tween()
+	damage_tween.set_trans(Tween.TRANS_SINE)
+	damage_tween.set_ease(Tween.EASE_OUT)
+	
+	# Быстро меняем на красный
+	damage_tween.tween_property(sprite, "modulate", damage_modulate, 0.075)
+	# Затем плавно возвращаем обратно
+	damage_tween.tween_property(sprite, "modulate", original_modulate, 0.15)
 
 func _on_magnet_body_entered(body: Node2D):
 	if body.is_in_group("gems"):
@@ -75,33 +95,6 @@ func _on_ability_selected(ability_id: int):
 		5: survivibility_ability()
 		6: add_tesla_gun()
 		7: magnit_ability() 
-		8: pass # 333, артилерийский залп, в случайное место на экране с задержкой падает снаряд
-		# (1) Снарядо падает чаще
-		# (2) Снаряд падает чаще и быстрее
-		# (3) Снарядов становится 2
-		# (4) Снаряд падает чаще и быстрее
-		# (5) Снарядов становится 3
-		# (6) Радиус взрыва увеличивается двое
-		# (7) Снарядов становится 4
-		# (8) Снаряды оставляют огненную воронку который раз в секунду наносит урон всем в радиусе
-		9: pass # Щелчок пальцами, в толпе мобов (приоритет на толпу) происходит щелчок / хлопок со взрвыом 
-		# (1) Радиус взрвыва больше
-		# (2) Чаще взрыв
-		# (3) Два радиуса, один маленький с двойным уроном
-		# (4) Радиус больше
-		# (5) Хлопок станин задетых врагов
-		# (6) Критическяй хлопок, с 20% шансом весь радиус наносит 2x урона
-		# (7) Радиус взрвыва больше
-		# (8) После пхлопка остается фантомная рука которая с задержкой еще раз хлопает
-		10: pass # Отскакивающий снаряд который врезается и летит в обратную сторону
-		# (1) Выпускает 2-а снаряда
-		# (2) Скорость движение снаряда увеличивается
-		# (3) Снаряды выпускаются чаще
-		# (4) Выпускает 3-и снаряда
-		# (5) Снаряд отскакивает 3-и раза
-		# (6) Скорость движение снаряда увеличивается и снаряды выпускаются чаще
-		# (7) Выпускает 4-и снаряда
-		# (8) При первом столкновении разбивается на 2-а снаряда
 
 	%AbilityMenu.close_menu()
 		
@@ -114,10 +107,6 @@ func _physics_process(_delta):
 	var direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	velocity = direction * (base_speed + speed_up)
 	move_and_slide()
-	
-	##################### ТЕСТ ПОТОМ УДАЛИТЬ
-	if Input.is_action_just_pressed("add_level"):
-		add_gem()
 	
 	if velocity.length() > 0.0:
 		%HappyBoo.play_walk_animation()
@@ -133,6 +122,9 @@ func _physics_process(_delta):
 
 func player_take_damage(dmg):
 	health_bar.health_dmg(dmg)
+	if $Hurt.is_stopped():
+		_flash_red()
+		$Hurt.start()
 
 func add_gem():
 	gems_collected += 1
@@ -166,21 +158,25 @@ func add_new_gun():
 	var orbital_guns = orbital_gun.instantiate()
 	match add_new_gun_level:
 		1:			
-			gun_count += 1
 			orbital_guns.angle = 0
 			orbital_guns.gun_count = gun_count
 			add_child(orbital_guns)
 			update_all_orbital_guns_damage(1)
+			%AbilityMenu.change_description(3, "20% increase drone fire rate")
 		2: 
 			update_all_orbital_guns_firerate(1.2)
+			%AbilityMenu.change_description(3, "increase drone rotation speed")
 		3: 
 			update_all_orbital_guns_rotation_speed(12.0)
+			%AbilityMenu.change_description(3, "20% increase fire rate, drone deals x2 damage")
 		4: 
 			update_all_orbital_guns_firerate(1.0)
 			update_all_orbital_guns_damage(2)
+			%AbilityMenu.change_description(3, "20% increase fire rate, increase laser speed")
 		5:
 			update_all_orbital_guns_firerate(0.8)
 			update_all_orbital_guns_bullet_speed(2500)
+			%AbilityMenu.change_description(3, "20% increase fire rate, +1 drone")
 		6:
 			gun_count += 1
 			orbital_guns.angle += deg_to_rad(90)
@@ -189,6 +185,7 @@ func add_new_gun():
 			update_all_orbital_guns_firerate(0.7)
 			update_all_orbital_guns_bullet_speed(2500)
 			update_all_orbital_guns_damage(2)
+			%AbilityMenu.change_description(3, "x3 damage, +1 drone")
 		7:
 			gun_count += 1
 			orbital_guns.angle += deg_to_rad(90)
@@ -197,6 +194,7 @@ func add_new_gun():
 			update_all_orbital_guns_firerate(0.7)
 			update_all_orbital_guns_bullet_speed(2500)
 			update_all_orbital_guns_damage(3)
+			%AbilityMenu.change_description(3, "+1 drone")
 		8:
 			gun_count += 1
 			orbital_guns.angle += deg_to_rad(90)
@@ -223,18 +221,25 @@ func main_gun():
 	match main_gun_level:
 		1: 
 			change_firerate_gun(0.6)
+			%AbilityMenu.change_description(1, "2 bullets")
 		2:
 			update_all_main_gun_bullet_count(2)
+			%AbilityMenu.change_description(1, "20% increase fire rate")
 		3: 
 			change_firerate_gun(0.5)
+			%AbilityMenu.change_description(1, "3 bullets")
 		4: 
 			update_all_main_gun_bullet_count(3)
+			%AbilityMenu.change_description(1, "20% increase fire rate")
 		5:
 			change_firerate_gun(0.3)
+			%AbilityMenu.change_description(1, "4 bullets")
 		6:
 			update_all_main_gun_bullet_count(4)
+			%AbilityMenu.change_description(1, "20% increase fire rate")
 		7:
 			change_firerate_gun(0.2)
+			%AbilityMenu.change_description(1, "5 bullets")
 		8:
 			update_all_main_gun_bullet_count(5)
 	main_gun_level += 1
@@ -255,6 +260,22 @@ func speed_up_one():
 
 func health_bar_attack():
 	health_bar.start_attack()
+	match health_bar_level:
+		1: 
+			%AbilityMenu.change_description(4, "increase length")
+		2:
+			%AbilityMenu.change_description(4, "increase length")
+		3: 
+			%AbilityMenu.change_description(4, "increase length")
+		4: 
+			%AbilityMenu.change_description(4, "increase speed")
+		5:
+			%AbilityMenu.change_description(4, "increase speed")
+		6:
+			%AbilityMenu.change_description(4, "chaotic rotation")
+		7:
+			%AbilityMenu.change_description(4, "x2 damage, increase speed")
+	health_bar_level += 1
 
 func knockback_mobs():
 	var knockback_radius = 500.0
@@ -275,21 +296,28 @@ func survivibility_ability():
 		1: 
 			health_bar.health_max_add(30)
 			health_bar.health_add(30)
+			%AbilityMenu.change_description(5, "20% increase max health")
 		2:
 			health_bar.health_max_add(30)
 			health_bar.health_add(30)
+			%AbilityMenu.change_description(5, "1 hp per second")
 		3: 
 			$Autoregen.autostart = true
 			$Autoregen.start()
+			%AbilityMenu.change_description(5, "2 hp per second")
 		4: 
 			autoregen = 2
+			%AbilityMenu.change_description(5, "20% increase max health")
 		5:
 			health_bar.health_max_add(30)
 			health_bar.health_add(30)
+			%AbilityMenu.change_description(5, "3 hp per second")
 		6:
 			autoregen = 3
+			%AbilityMenu.change_description(5, "50% health activate sacrife power")
 		7:
 			knockback_is_active = true
+			%AbilityMenu.change_description(5, "20% increase max health, sacrife power increase cooldown recovery")
 		8:
 			knockback_timer = 20.0
 			knockback_cooldown = knockback_timer
@@ -320,16 +348,32 @@ func update_tesla_gun_damage(tesla_damage: float):
 func add_tesla_gun():	
 	var tesla_guns = tesla_gun.instantiate()
 	match tesla_gun_level:
-		1: add_child(tesla_guns)
-		2: update_tesla_gun_chain(2)
-		3: update_tesla_gun_chain_radius(300)
-		4: update_tesla_gun_chain(4)
+		1: 
+			add_child(tesla_guns)
+			update_tesla_gun_chain(4)
+			%AbilityMenu.change_description(6, "+2 chain")
+		2: 
+			update_tesla_gun_chain(6)
+			%AbilityMenu.change_description(6, "x2 damage, increase chain radius")
+		3: 
+			update_tesla_gun_chain_radius(300)
+			update_tesla_gun_damage(2)
+			%AbilityMenu.change_description(6, "+4 chain")
+		4: 
+			update_tesla_gun_chain(8)
+			%AbilityMenu.change_description(6, "+8 chain, increase attack radius")
 		5: 
-			update_tesla_gun_attack_radius(450)
-			update_tesla_gun_damage(4)
-		6: update_tesla_gun_chain(6)
-		7: update_tesla_gun_attack_radius(600)
-		8: update_tesla_gun_chain(8)
+			update_tesla_gun_attack_radius(600)
+			update_tesla_gun_chain(16)
+			%AbilityMenu.change_description(6, "+4 chain")
+		6: 
+			update_tesla_gun_chain(20)
+			%AbilityMenu.change_description(6, "increase attack, radius")
+		7: 
+			update_tesla_gun_attack_radius(800)
+			%AbilityMenu.change_description(6, "+10 chain")
+		8: 
+			update_tesla_gun_chain(30)
 	tesla_gun_level+=1
 
 func magnit_strengh(magnit_strength_value):
@@ -346,12 +390,25 @@ func magnit_ability():
 		1: 
 			%Gem_magnit_col.shape.radius = 200
 			magnit_strengh(200)
-		2: magnit_strengh(400)
-		3: %Gem_magnit_col.shape.radius = 300
-		4: magnit_strengh(600)
-		5: %Gem_magnit_col.shape.radius = 400
-		6: magnit_strengh(800)
-		7: %Gem_magnit_col.shape.radius = 500
+			%AbilityMenu.change_description(7, "increase magnin strength")
+		2: 
+			magnit_strengh(400)
+			%AbilityMenu.change_description(7, "increase magnin radius")
+		3: 
+			%Gem_magnit_col.shape.radius = 300
+			%AbilityMenu.change_description(7, "increase magnin strength")
+		4: 
+			magnit_strengh(600)
+			%AbilityMenu.change_description(7, "increase magnin radius")
+		5: 
+			%Gem_magnit_col.shape.radius = 400
+			%AbilityMenu.change_description(7, "increase magnin strength")
+		6: 
+			magnit_strengh(800)
+			%AbilityMenu.change_description(7, "increase magnin radius")
+		7: 
+			%Gem_magnit_col.shape.radius = 500
+			%AbilityMenu.change_description(7, "mega magnnit activate")
 		8: 
 			mega_magnit()
 			%Mega_magnit_activ.start()

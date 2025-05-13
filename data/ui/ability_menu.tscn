@@ -1,29 +1,46 @@
-[gd_scene load_steps=2 format=3 uid="uid://bp8nk5o4025ox"]
+[gd_scene load_steps=7 format=3 uid="uid://bp8nk5o4025ox"]
 
 [ext_resource type="Script" uid="uid://cps8rgri0kdsp" path="res://data/ui/ability_menu.gd" id="1_tnovu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g8flh"]
+bg_color = Color(0.767371, 0.120232, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4syw7"]
+bg_color = Color(0.195545, 0.195545, 0.195545, 1)
+
+[sub_resource type="SystemFont" id="SystemFont_4syw7"]
+font_names = PackedStringArray("Berlin Sans FB")
+font_weight = 500
+
+[sub_resource type="SystemFont" id="SystemFont_em5pj"]
+font_names = PackedStringArray("Berlin Sans FB")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_em5pj"]
+bg_color = Color(0.188371, 0.188371, 0.188371, 1)
 
 [node name="AbilityMenu" type="CanvasLayer"]
 script = ExtResource("1_tnovu")
 
 [node name="Panel" type="Panel" parent="."]
 unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
 z_index = 100
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -506.0
-offset_top = -165.0
-offset_right = 506.0
-offset_bottom = 165.0
+offset_left = -500.0
+offset_top = -320.0
+offset_right = 500.0
+offset_bottom = 320.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Ability1" type="Button" parent="Panel"]
 unique_name_in_owner = true
-z_index = 100
-custom_minimum_size = Vector2(200, 200)
+z_index = 770
+custom_minimum_size = Vector2(250, 250)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -31,21 +48,60 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -382.0
-offset_top = -101.0
+offset_top = -100.0
 offset_right = -155.0
-offset_bottom = 104.0
+offset_bottom = 105.0
 grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 0
 theme_override_font_sizes/font_size = 28
-text = "Fire rate
+theme_override_styles/hover = SubResource("StyleBoxFlat_g8flh")
+theme_override_styles/normal = SubResource("StyleBoxFlat_4syw7")
+text_overrun_behavior = 2
+icon_alignment = 1
 
-[Main weapon]"
+[node name="Ability1_name" type="Label" parent="Panel/Ability1"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -109.5
+offset_top = -43.0
+offset_right = 111.5
+offset_bottom = 5.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.466681, 0.398545, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = SubResource("SystemFont_4syw7")
+theme_override_font_sizes/font_size = 34
+text = "Dash"
+horizontal_alignment = 1
+
+[node name="Ability1_description" type="Label" parent="Panel/Ability1"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -110.5
+offset_top = 250.0
+offset_right = 110.5
+offset_bottom = 422.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.381338, 0.313292, 1)
+theme_override_colors/font_shadow_color = Color(1, 0.224057, 0.169456, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = SubResource("SystemFont_em5pj")
+theme_override_font_sizes/font_size = 28
+text = "Test Test Test Test"
+horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="Ability2" type="Button" parent="Panel"]
 unique_name_in_owner = true
-z_index = 100
-custom_minimum_size = Vector2(200, 200)
+z_index = 770
+custom_minimum_size = Vector2(250, 250)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -62,14 +118,52 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 focus_mode = 0
 theme_override_font_sizes/font_size = 28
-text = "Move speed
+theme_override_styles/hover = SubResource("StyleBoxFlat_g8flh")
+theme_override_styles/normal = SubResource("StyleBoxFlat_em5pj")
+icon_alignment = 1
 
-[Player]"
+[node name="Ability2_name" type="Label" parent="Panel/Ability2"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -109.5
+offset_top = -43.0
+offset_right = 111.5
+offset_bottom = 5.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.466681, 0.398545, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = SubResource("SystemFont_4syw7")
+theme_override_font_sizes/font_size = 34
+text = "Dash"
+horizontal_alignment = 1
+
+[node name="Ability2_description" type="Label" parent="Panel/Ability2"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -110.5
+offset_top = 250.0
+offset_right = 110.5
+offset_bottom = 422.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.381338, 0.313292, 1)
+theme_override_colors/font_shadow_color = Color(1, 0.224057, 0.169456, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = SubResource("SystemFont_em5pj")
+theme_override_font_sizes/font_size = 28
+text = "Test Test Test Test"
+horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="Ability3" type="Button" parent="Panel"]
 unique_name_in_owner = true
-z_index = 100
-custom_minimum_size = Vector2(200, 200)
+z_index = 770
+custom_minimum_size = Vector2(250, 250)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -77,17 +171,54 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = 166.0
-offset_top = -99.0
+offset_top = -100.0
 offset_right = 398.0
-offset_bottom = 104.0
+offset_bottom = 103.0
 grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 0
 theme_override_font_sizes/font_size = 28
-text = "Add weapon
+theme_override_styles/hover = SubResource("StyleBoxFlat_g8flh")
+theme_override_styles/normal = SubResource("StyleBoxFlat_4syw7")
+icon_alignment = 1
 
-[Standart
-parametrs]"
+[node name="Ability3_name" type="Label" parent="Panel/Ability3"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -109.5
+offset_top = -43.0
+offset_right = 111.5
+offset_bottom = 5.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.466681, 0.398545, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = SubResource("SystemFont_4syw7")
+theme_override_font_sizes/font_size = 34
+text = "Dash"
+horizontal_alignment = 1
+
+[node name="Ability3_description" type="Label" parent="Panel/Ability3"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -110.5
+offset_top = 250.0
+offset_right = 110.5
+offset_bottom = 422.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.381338, 0.313292, 1)
+theme_override_colors/font_shadow_color = Color(1, 0.224057, 0.169456, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = SubResource("SystemFont_em5pj")
+theme_override_font_sizes/font_size = 28
+text = "Test Test Test Test"
+horizontal_alignment = 1
+autowrap_mode = 2
 
 [connection signal="pressed" from="Panel/Ability1" to="." method="_on_ability_1_pressed"]
 [connection signal="pressed" from="Panel/Ability2" to="." method="_on_ability_2_pressed"]

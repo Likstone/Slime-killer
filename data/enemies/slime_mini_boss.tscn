@@ -13,7 +13,7 @@ mass_body = 50.0
 mob_damage_rate = 10
 
 [node name="Slime" parent="." index="0"]
-modulate = Color(0.552941, 0.0980392, 0.843137, 1)
+modulate = Color(0, 0.133333, 1, 1)
 position = Vector2(-1, 39)
 scale = Vector2(1.5, 1.5)
 

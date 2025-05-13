@@ -10,10 +10,12 @@ radius = 13.0384
 script = ExtResource("1_67bce")
 
 [node name="Health" type="Sprite2D" parent="."]
-scale = Vector2(2, 2)
+modulate = Color(3.7542e-06, 0.95928, 0.41183, 1)
+scale = Vector2(0.956522, 1.08333)
 texture = ExtResource("2_67bce")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 scale = Vector2(2, 2)
 shape = SubResource("CircleShape2D_na2qj")
 debug_color = Color(0.729209, 0.759624, 0.157271, 0.42)

@@ -14,8 +14,8 @@ var initial_global_position: Vector2
 var distance_traveled: float = 0.0
 
 func _ready() -> void:
-	%Marker2D.position.y -= 100
-	%CollisionShape2D.position.y -= 100
+	%Marker2D.position.y -= 115
+	%CollisionShape2D.position.y -= 115
 	my_timer.wait_time = fire_rate
 	add_to_group("tesla_gun")
 	collison_radius.shape.radius = attack_radius
@@ -40,7 +40,7 @@ func overdrive_shoot():
 	var enemies_in_range = get_overlapping_bodies()
 	var BULLET = preload("res://data/player/lighting_shot.tscn")
 	if enemies_in_range.size() > 6:
-		for i in range(6):
+		for i in range(10):
 			var new_bullet = BULLET.instantiate()
 			new_bullet.max_bounces = chain
 			new_bullet.bounce_range = chain_radius
