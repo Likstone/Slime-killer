@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://kavnvk1dga4n"]
+[gd_scene load_steps=8 format=3 uid="uid://kavnvk1dga4n"]
 
 [ext_resource type="PackedScene" uid="uid://pbmyh1qru7p" path="res://assets/characters/happy_boo/happy_boo.tscn" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://cdusx315ae3co" path="res://data/player/player.gd" id="1_onrkg"]
@@ -12,32 +12,12 @@ height = 75.3751
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_253sb"]
 size = Vector2(66, 86.7805)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_253sb"]
-bg_color = Color(0.6, 0.6, 0.6, 0.235294)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2hs0m"]
-bg_color = Color(0, 0.427451, 0.898039, 0.835294)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.129412, 0.105882, 0.00784314, 0.760784)
-border_blend = true
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-corner_detail = 6
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_253sb"]
 radius = 150.0
 
 [node name="Player" type="CharacterBody2D"]
-position = Vector2(856, 766)
+z_index = 1
+position = Vector2(927, 765)
 scale = Vector2(1, 1.00829)
 collision_layer = 5
 collision_mask = 3
@@ -47,6 +27,7 @@ script = ExtResource("1_onrkg")
 unique_name_in_owner = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(-1, -39.6711)
 rotation = -3.14159
 shape = SubResource("CapsuleShape2D_253sb")
@@ -74,48 +55,6 @@ debug_color = Color(0.664707, 0, 0.0450594, 0.42)
 [node name="Health_bar" parent="." instance=ExtResource("4_253sb")]
 unique_name_in_owner = true
 
-[node name="LevelProgressBar" type="ProgressBar" parent="."]
-unique_name_in_owner = true
-light_mask = 0
-z_index = 1265
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -956.0
-offset_top = -539.0
-offset_right = 956.0
-offset_bottom = -511.0
-grow_horizontal = 2
-size_flags_horizontal = 0
-theme_override_styles/background = SubResource("StyleBoxFlat_253sb")
-theme_override_styles/fill = SubResource("StyleBoxFlat_2hs0m")
-max_value = 20.0
-step = 1.0
-value = 20.0
-show_percentage = false
-
-[node name="LevelLabel" type="Label" parent="LevelProgressBar"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -104.0
-offset_top = -39.3205
-offset_bottom = 37.6795
-grow_horizontal = 0
-grow_vertical = 2
-theme_override_colors/font_color = Color(1, 1, 1, 0.94902)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 25
-text = "1"
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="Autoregen" type="Timer" parent="."]
 unique_name_in_owner = true
 
@@ -130,7 +69,7 @@ debug_color = Color(0.950227, 3.85046e-07, 0.569635, 0.42)
 
 [node name="Mega_magnit_activ" type="Timer" parent="Gem_magnit_area"]
 unique_name_in_owner = true
-wait_time = 120.0
+wait_time = 60.0
 
 [node name="debug_1920x1080" type="ColorRect" parent="."]
 visible = false
@@ -148,6 +87,10 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 0, 0, 0.160784)
 metadata/_edit_lock_ = true
+
+[node name="Hurt" type="Timer" parent="."]
+wait_time = 0.15
+one_shot = true
 
 [connection signal="timeout" from="Autoregen" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="Gem_magnit_area/Mega_magnit_activ" to="." method="_on_mega_magnit_activ_timeout"]

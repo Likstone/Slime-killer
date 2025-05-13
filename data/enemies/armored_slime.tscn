@@ -7,7 +7,4 @@ Health = 6
 mass_body = 5.0
 
 [node name="Slime" parent="." index="0"]
-modulate = Color(0.239216, 0, 1, 1)
-
-[node name="CollisionShape2D" parent="." index="1"]
-visible = false
+modulate = Color(0.234148, 0.0265462, 1, 1)

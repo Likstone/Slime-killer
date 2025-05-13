@@ -1,9 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://c3kjygdna40as"]
+[gd_scene load_steps=4 format=3 uid="uid://c3kjygdna40as"]
 
 [ext_resource type="Script" uid="uid://75qvb1pux1in" path="res://data/player/tesla_gun.gd" id="1_g72vk"]
+[ext_resource type="Texture2D" uid="uid://dthm34pb3d85s" path="res://assets/characters/ability/dsadaни-Photoroom.png" id="2_io0ld"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_g72vk"]
-radius = 300.0
+radius = 458.001
 
 [node name="Tesla gun" type="Area2D"]
 collision_layer = 0
@@ -13,14 +14,14 @@ script = ExtResource("1_g72vk")
 [node name="Marker2D" type="Marker2D" parent="."]
 unique_name_in_owner = true
 
-[node name="ColorRect" type="ColorRect" parent="Marker2D"]
-offset_left = -12.0
-offset_top = -12.0
-offset_right = 12.0
-offset_bottom = 9.0
-size_flags_horizontal = 4
-color = Color(0.889933, 0, 0.0832429, 1)
-metadata/_edit_use_anchors_ = true
+[node name="Sprite2D" type="Sprite2D" parent="Marker2D"]
+z_index = 6
+scale = Vector2(0.208333, 0.183333)
+texture = ExtResource("2_io0ld")
+
+[node name="ShootingPoint" type="Marker2D" parent="Marker2D/Sprite2D"]
+unique_name_in_owner = true
+position = Vector2(-3.8147e-06, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true

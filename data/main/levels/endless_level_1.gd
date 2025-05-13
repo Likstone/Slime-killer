@@ -134,7 +134,7 @@ func _process(_delta):
 		var milliseconds = current_time_msec % 1000
 		timer_label.text = "%02d:%02d" % [minutes, seconds]
 	
-	########## WAVE 1 ############
+	######### WAVE 1 ############
 	if current_time_sec >= 1.0 and !wave_1:
 		spawn_mob(enemy_data["gray_slime"]["scene"], 10)
 		mob_power_increase("gray_slime", 5.0, 10)

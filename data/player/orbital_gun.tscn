@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://tludri0221sw"]
 
 [ext_resource type="Script" uid="uid://cjsugxfiewbq5" path="res://data/player/orbital_gun.gd" id="1_jkv0g"]
-[ext_resource type="Texture2D" uid="uid://cue0wyaekevs8" path="res://assets/characters/ability/drone3-export1.png" id="2_jkv0g"]
+[ext_resource type="Texture2D" uid="uid://bf5i2aldb4bhc" path="res://assets/characters/ability/глаз-Photoroom.png" id="2_jkv0g"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dk5gl"]
 radius = 502.025
@@ -18,16 +18,16 @@ modulate = Color(1, 0.415686, 0.207843, 1)
 position = Vector2(103, 0)
 
 [node name="Pistol2" type="Sprite2D" parent="WeaponPivot"]
-modulate = Color(1, 0.415686, 0.207843, 1)
-rotation = -1.5708
-scale = Vector2(0.840571, 0.776)
+position = Vector2(-33, 2)
+scale = Vector2(0.216216, 0.215385)
 texture = ExtResource("2_jkv0g")
 flip_v = true
+metadata/_edit_lock_ = true
 
 [node name="ShootingPoint" type="Marker2D" parent="WeaponPivot/Pistol2"]
 unique_name_in_owner = true
 modulate = Color(1, 0.415686, 0.207843, 1)
-position = Vector2(-0.000344634, 103.093)
+position = Vector2(407, -9.28571)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false

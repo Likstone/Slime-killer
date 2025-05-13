@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b7gwimj3ogtl"
-path="res://.godot/imported/691ec767cc3193098cc3b0cf23844f09.jpg-22c2415f90a112dfd2af95c9ad87eb71.ctex"
+uid="uid://bw4n2buqehcev"
+path="res://.godot/imported/orbital_gun.png-441a17f7dea90cf77e5ad97466a4fbb6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/691ec767cc3193098cc3b0cf23844f09.jpg"
-dest_files=["res://.godot/imported/691ec767cc3193098cc3b0cf23844f09.jpg-22c2415f90a112dfd2af95c9ad87eb71.ctex"]
+source_file="res://assets/characters/ability/icons/orbital_gun.png"
+dest_files=["res://.godot/imported/orbital_gun.png-441a17f7dea90cf77e5ad97466a4fbb6.ctex"]
 
 [params]
 

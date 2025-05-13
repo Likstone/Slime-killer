@@ -8,53 +8,63 @@ signal menu_blocked  # Новый сигнал для случая, когда �
 @onready var ability_b_3 = %Ability3
 
 # Настройки способностей
-var abilities = {
+@export var abilities = {
 	1: {
-		"name": "Main pislols", 
-		"description": "Increase firerate", 
-		"weight": 10, 
+		"name": "Pistols", 
+		"description": "20% increase fire rate", 
+		"icon": preload("res://assets/characters/ability/icons/Pistols.png"),
+		"weight": 8, 
 		"max_uses": 8
 		},
 	2: {
 		"name": "Move speed", 
-		"description": "Increase move speed", 
-		"weight": 10, 
+		"description": "20% increase move speed", 
+		"icon": preload("res://assets/characters/ability/icons/speed.png"),
+		"weight": 9, 
 		"max_uses": 8
 		},
 	3: {
-		"name": "Addition orbital gun", 
-		"description": "Add addition weapon", 
+		"name": "Orbital drone", 
+		"description": "Add oribtal drone", 
+		"icon": preload("res://assets/characters/ability/icons/orbital_gun.png"),
 		"weight": 8, 
 		"max_uses": 8
 		},
 	4: {
-		"name": "Health bar attack", 
-		"description": "Spine health bar for attack", 
+		"name": "Health bar", 
+		"description": "???", 
+		"icon": preload("res://assets/characters/ability/icons/Health_barRR.png"),
 		"weight": 8, 
 		"max_uses": 8
 		},
 	5: {
 		"name": "Survivibility", 
-		"description": "Add Survivibility", 
-		"weight": 10, 
+		"description": "20% increase max health", 
+		"icon": preload("res://assets/characters/ability/icons/surv.png"),
+		"weight": 9, 
 		"max_uses": 8
 		},
 	6: {
-		"name": "Tesla gun", 
-		"description": "Add tesla gun", 
+		"name": "Tesla drone", 
+		"description": "Add tesla drone", 
+		"icon": preload("res://assets/characters/ability/icons/Tesla.png"),
 		"weight": 8, 
 		"max_uses": 8
 		},
 	7: {
 		"name": "Magnit", 
-		"description": "Add magnit", 
-		"weight": 10, 
+		"description": "Add magnit effect", 
+		"icon": preload("res://assets/characters/ability/icons/magn.png"),
+		"weight": 9, 
 		"max_uses": 8
 		},
 }
 
 var ability_usage = {}
 var current_abilities = []
+
+func change_description(ability, desc):
+	abilities[ability]["description"] = desc
 
 func _input(event):
 	if event.is_action_pressed("ability_1"):
@@ -130,7 +140,9 @@ func open_menu():
 		if button:
 			if i < current_abilities.size():
 				var ability_id = current_abilities[i]
-				button.text = abilities[ability_id]["name"]
+				button.get_child(0).text = abilities[ability_id]["name"]
+				button.get_child(1).text = abilities[ability_id]["description"]
+				button.icon = abilities[ability_id]["icon"]
 				button.disabled = false
 			else:
 				button.text = "N/A"
