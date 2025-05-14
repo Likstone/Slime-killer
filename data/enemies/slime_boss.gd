@@ -171,6 +171,7 @@ func take_damage(damage):
 		smoke.global_position = global_position    
 		emit_signal("mob_died")
 		emit_signal("boss_died")
+		SoundManager.mob_died_s()
 
 func _on_body_entered(body: Node) -> void:
 	if body.has_method("take_damage") and !slime_friendly_flag:

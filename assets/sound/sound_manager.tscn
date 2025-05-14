@@ -28,11 +28,11 @@ one_shot = true
 [node name="mob_died" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("3_r3x0q")
-volume_db = -50.275
+volume_db = -40.909
 
 [node name="sound_cd_timer" type="Timer" parent="mob_died"]
 unique_name_in_owner = true
-wait_time = 0.05
+wait_time = 0.17
 one_shot = true
 
 [node name="laser_shoot" type="AudioStreamPlayer" parent="."]
@@ -58,7 +58,7 @@ one_shot = true
 [node name="gem_take" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("5_5x60v")
-volume_db = -42.28
+volume_db = -40.389
 
 [node name="sound_cd_timer_4" type="Timer" parent="gem_take"]
 unique_name_in_owner = true

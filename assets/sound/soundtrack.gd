@@ -3,7 +3,7 @@ extends Node2D
 func _ready():
 	process_mode = PROCESS_MODE_ALWAYS
 
-func mob_died():
+func mob_died_s():
 	if %sound_cd_timer.is_stopped():
 		%sound_cd_timer.start()
 		%mob_died.play()
