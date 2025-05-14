@@ -77,7 +77,6 @@ func _input(event):
 func _ready():
 	hide()
 	randomize()
-	
 	# Инициализация счетчиков
 	for ability_id in abilities:
 		ability_usage[ability_id] = 0
@@ -145,7 +144,9 @@ func open_menu():
 				button.icon = abilities[ability_id]["icon"]
 				button.disabled = false
 			else:
-				button.text = "N/A"
+				button.icon = null
+				button.get_child(0).text = ""
+				button.get_child(1).text = ""
 				button.disabled = true
 	
 	show()
