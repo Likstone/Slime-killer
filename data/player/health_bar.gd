@@ -32,7 +32,7 @@ func _ready():
 	health_value = %HealthBar.value
 	health_max_value = %HealthBar.max_value
 
-func _process(delta):
+func _physics_process(delta):
 	match current_mode:
 		MODE.ATTACK:
 			# Плавное наращивание перехода в режим атаки
@@ -58,7 +58,9 @@ func _process(delta):
 			if ignore_delta_in_rotation and level >= 6:
 				rotation += self_rotation_speed * delta
 			else:
-				rotation = lerp_angle(rotation, angle, rotation_speed * delta)
+				var target_angle = angle
+				var rotation_diff = wrapf(target_angle - rotation, -PI, PI)
+				rotation += rotation_diff * min(rotation_speed * delta, 1.0)
 			
 		_:
 			# Возврат в исходное состояние
