@@ -115,6 +115,7 @@ func take_damage(damage):
 		emit_signal("mob_died")
 		drop_health_pack()
 		drop_gem()
+		SoundManager.mob_died_s()
 
 
 func _on_dash_timeout() -> void:

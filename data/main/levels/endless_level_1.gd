@@ -1,7 +1,7 @@
 extends Node2D
 var score = 0
 var mob_count = 0
-var max_mob = 300
+var max_mob = 250
 
 @export var timer_label: Label  # Label для вывода времени
 var start_time: int
@@ -76,7 +76,6 @@ func score_add():
 
 func mob_died_check():
 	mob_count-=1
-	SoundManager.mob_died()
 
 func _on_player_health_depleted() -> void:
 	pause_timer()
@@ -246,7 +245,7 @@ func _process(_delta):
 		mob_power_increase("gray_slime", 5.0, 0)
 		mob_power_increase("armored_slime", 5.0, 0)
 		mob_power_increase("fast_slime", 5.0, 0)
-		max_mob = 301
+		max_mob = 251
 		spawn_mob(enemy_data["slime_boss"]["scene"], 1)
 		var bosses = get_tree().get_nodes_in_group("boss")
 		bosses[0].connect("boss_died", _on_boss_died)
