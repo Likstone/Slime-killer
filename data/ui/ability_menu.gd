@@ -14,14 +14,14 @@ signal menu_blocked  # Новый сигнал для случая, когда �
 		"description": "20% increase fire rate", 
 		"icon": preload("res://assets/characters/ability/icons/Pistols.png"),
 		"weight": 8, 
-		"max_uses": 8
+		"max_uses": 0
 		},
 	2: {
 		"name": "Move speed", 
 		"description": "20% increase move speed", 
 		"icon": preload("res://assets/characters/ability/icons/speed.png"),
 		"weight": 9, 
-		"max_uses": 8
+		"max_uses": 0
 		},
 	3: {
 		"name": "Orbital drone", 
@@ -35,14 +35,14 @@ signal menu_blocked  # Новый сигнал для случая, когда �
 		"description": "???", 
 		"icon": preload("res://assets/characters/ability/icons/Health_barRR.png"),
 		"weight": 8, 
-		"max_uses": 8
+		"max_uses": 0
 		},
 	5: {
 		"name": "Survivibility", 
 		"description": "20% increase max health", 
 		"icon": preload("res://assets/characters/ability/icons/surv.png"),
 		"weight": 9, 
-		"max_uses": 8
+		"max_uses": 0
 		},
 	6: {
 		"name": "Tesla drone", 
@@ -56,7 +56,7 @@ signal menu_blocked  # Новый сигнал для случая, когда �
 		"description": "Add magnit effect", 
 		"icon": preload("res://assets/characters/ability/icons/magn.png"),
 		"weight": 9, 
-		"max_uses": 8
+		"max_uses": 0
 		},
 }
 

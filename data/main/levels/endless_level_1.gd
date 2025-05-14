@@ -8,12 +8,14 @@ var start_time: int
 var paused_time: int = 0  # Накопленное время паузы
 var is_paused: bool = false
 
-
 @onready var slime_spawn_1 : Timer = $slime_spawn_1
 @onready var slime_spawn_2 : Timer = $slime_spawn_2
 var enemy_data = {}
 
 var spawn_choice = randi_range(1, 2)
+
+var lose_flag = true
+var win_flag = true
 
 var wave_1 = false
 var wave_2 = false
@@ -74,13 +76,17 @@ func score_add():
 
 func mob_died_check():
 	mob_count-=1
+	SoundManager.mob_died()
 
 func _on_player_health_depleted() -> void:
 	pause_timer()
 	%GameOver.visible = true
 	get_tree().paused = true
 	%GameOver.process_mode = Node.PROCESS_MODE_ALWAYS
-	%GameOver.get_child(0).process_mode = Node.PROCESS_MODE_ALWAYS 
+	%GameOver.get_child(0).process_mode = Node.PROCESS_MODE_ALWAYS
+	if lose_flag:
+		SoundManager.lose()
+		lose_flag = false
 
 var gems_collected: int = 0
 var player_level: int = 1
@@ -251,7 +257,10 @@ func _on_boss_died():
 	%Victory.visible = true
 	get_tree().paused = true
 	%Victory.process_mode = Node.PROCESS_MODE_ALWAYS
-	%Victory.get_child(0).process_mode = Node.PROCESS_MODE_ALWAYS 
+	%Victory.get_child(0).process_mode = Node.PROCESS_MODE_ALWAYS
+	if win_flag:
+		SoundManager.victory()
+		win_flag = false
 	
 func spawn_mob(enemies_type, spawn_loop_i : int):
 	for i in range(spawn_loop_i):

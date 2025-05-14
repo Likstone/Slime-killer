@@ -48,6 +48,7 @@ func overdrive_shoot():
 			new_bullet.damage = tesla_damage
 			new_bullet.initial_target_range = attack_radius + 400
 			%Marker2D.add_child(new_bullet)
+			SoundManager.electro_shoot()
 
 func shoot():
 	var enemies_in_range = get_overlapping_bodies()
@@ -60,6 +61,7 @@ func shoot():
 		new_bullet.damage = tesla_damage
 		new_bullet.initial_target_range = attack_radius + 100
 		%Marker2D.add_child(new_bullet)
+		SoundManager.electro_shoot()
 		
 		
 func _on_timer_timeout() -> void:
