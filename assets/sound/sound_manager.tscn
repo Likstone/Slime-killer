@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cfq7yvx73mcgg" path="res://assets/sound/soundtrack.gd" id="1_7mgy0"]
 [ext_resource type="AudioStream" uid="uid://ttr8mwj2184p" path="res://assets/sound/DavidKBD - Concerto Pack - 02 - In the Hall of the Mountain King (Grieg).ogg" id="1_wvdpp"]
-[ext_resource type="AudioStream" uid="uid://qd7xnxs12lpg" path="res://assets/sound/punch 2.wav" id="3_r3x0q"]
+[ext_resource type="AudioStream" uid="uid://bk2npmmnysxyp" path="res://assets/sound/ui-pop-sound-316482.mp3" id="3_o0mgu"]
 [ext_resource type="AudioStream" uid="uid://l62sq002jgoq" path="res://assets/sound/sci-fi-weapon-shoot-firing-plasma-ku-05-233818.mp3" id="4_tq064"]
 [ext_resource type="AudioStream" uid="uid://cvy5c8g2llx4u" path="res://assets/sound/electric-shock-334777.mp3" id="5_5h1sa"]
 [ext_resource type="AudioStream" uid="uid://b0pi0y6xhrcof" path="res://assets/sound/tube tv turn off 3.wav" id="5_5x60v"]
@@ -25,14 +25,14 @@ unique_name_in_owner = true
 wait_time = 4.54
 one_shot = true
 
-[node name="mob_died" type="AudioStreamPlayer2D" parent="."]
+[node name="mob_died" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
-stream = ExtResource("3_r3x0q")
-volume_db = -40.909
+stream = ExtResource("3_o0mgu")
+volume_db = -45.253
 
 [node name="sound_cd_timer" type="Timer" parent="mob_died"]
 unique_name_in_owner = true
-wait_time = 0.17
+wait_time = 0.05
 one_shot = true
 
 [node name="laser_shoot" type="AudioStreamPlayer" parent="."]
