@@ -1,0 +1,98 @@
+[gd_scene load_steps=11 format=3 uid="uid://de6sjoc4vk2f2"]
+
+[ext_resource type="Script" uid="uid://cfq7yvx73mcgg" path="res://assets/sound/soundtrack.gd" id="1_7mgy0"]
+[ext_resource type="AudioStream" uid="uid://ttr8mwj2184p" path="res://assets/sound/DavidKBD - Concerto Pack - 02 - In the Hall of the Mountain King (Grieg).ogg" id="1_wvdpp"]
+[ext_resource type="AudioStream" uid="uid://qd7xnxs12lpg" path="res://assets/sound/punch 2.wav" id="3_r3x0q"]
+[ext_resource type="AudioStream" uid="uid://l62sq002jgoq" path="res://assets/sound/sci-fi-weapon-shoot-firing-plasma-ku-05-233818.mp3" id="4_tq064"]
+[ext_resource type="AudioStream" uid="uid://cvy5c8g2llx4u" path="res://assets/sound/electric-shock-334777.mp3" id="5_5h1sa"]
+[ext_resource type="AudioStream" uid="uid://b0pi0y6xhrcof" path="res://assets/sound/tube tv turn off 3.wav" id="5_5x60v"]
+[ext_resource type="AudioStream" uid="uid://b48qad4e4wosy" path="res://assets/sound/multi-pop-2-188167.mp3" id="7_pcydu"]
+[ext_resource type="AudioStream" uid="uid://bgmykxgl1qlhx" path="res://assets/sound/damage-sound-effect-331441.mp3" id="8_wi8qd"]
+[ext_resource type="AudioStream" uid="uid://8pchkwfq5c0r" path="res://assets/sound/violin-lose-5-185126.mp3" id="9_wi8qd"]
+[ext_resource type="AudioStream" uid="uid://b4rkx3b5u6cg8" path="res://assets/sound/violin-win-5-185128.mp3" id="10_o0mgu"]
+
+[node name="Sound_manager" type="Node2D"]
+script = ExtResource("1_7mgy0")
+
+[node name="soundtrack" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("1_wvdpp")
+volume_db = -55.565
+autoplay = true
+
+[node name="soundtrack_stop" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 4.54
+one_shot = true
+
+[node name="mob_died" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_r3x0q")
+volume_db = -50.275
+
+[node name="sound_cd_timer" type="Timer" parent="mob_died"]
+unique_name_in_owner = true
+wait_time = 0.05
+one_shot = true
+
+[node name="laser_shoot" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("4_tq064")
+volume_db = -65.241
+
+[node name="sound_cd_timer_2" type="Timer" parent="laser_shoot"]
+unique_name_in_owner = true
+wait_time = 0.05
+one_shot = true
+
+[node name="electro_shoot" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("5_5h1sa")
+volume_db = -47.75
+
+[node name="sound_cd_timer_3" type="Timer" parent="electro_shoot"]
+unique_name_in_owner = true
+wait_time = 0.05
+one_shot = true
+
+[node name="gem_take" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("5_5x60v")
+volume_db = -42.28
+
+[node name="sound_cd_timer_4" type="Timer" parent="gem_take"]
+unique_name_in_owner = true
+wait_time = 0.05
+one_shot = true
+
+[node name="level_up" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("7_pcydu")
+volume_db = -39.917
+
+[node name="sound_cd_timer_5" type="Timer" parent="level_up"]
+unique_name_in_owner = true
+wait_time = 0.05
+one_shot = true
+
+[node name="player_take_damage" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("8_wi8qd")
+volume_db = -35.661
+
+[node name="sound_cd_timer_6" type="Timer" parent="player_take_damage"]
+unique_name_in_owner = true
+wait_time = 0.06
+one_shot = true
+
+[node name="lose" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("9_wi8qd")
+volume_db = -40.388
+
+[node name="victory" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("10_o0mgu")
+volume_db = -40.59
+
+[connection signal="timeout" from="soundtrack_stop" to="." method="_on_soundtrack_stop_timeout"]

@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://ttr8mwj2184p"
+path="res://.godot/imported/DavidKBD - Concerto Pack - 02 - In the Hall of the Mountain King (Grieg).ogg-e55d394741d1a11984a0f45d71dbe1ae.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/sound/DavidKBD - Concerto Pack - 02 - In the Hall of the Mountain King (Grieg).ogg"
+dest_files=["res://.godot/imported/DavidKBD - Concerto Pack - 02 - In the Hall of the Mountain King (Grieg).ogg-e55d394741d1a11984a0f45d71dbe1ae.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

@@ -82,6 +82,7 @@ func shoot():
 	new_bullet.global_rotation = %ShootingPoint.global_rotation
 	if enemies_in_range.size() > gun_count:
 		%ShootingPoint.add_child(new_bullet)
+		SoundManager.laser_shoot()
 		
 func _on_timer_timeout() -> void:
 	if attack_ready:

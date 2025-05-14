@@ -121,17 +121,6 @@ func _on_dash_timeout() -> void:
 	circle_active = true
 
 
-#func _on_body_entered(body: Node) -> void:
-	#if boom_slime and body.has_method("player_take_damage"):
-		#body.player_take_damage(mob_damage_rate)
-		#take_damage(9999)
-	#else:
-		#if attack_ready_flag and body.has_method("player_take_damage"):
-			#body.player_take_damage(mob_damage_rate)
-			#attack_ready_flag = false
-			#print("attack player")
-			#attack_rate.start()
-
 
 func _on_attack_rate_timeout() -> void:
 	if player_in_area and player_in_area.has_method("player_take_damage"):

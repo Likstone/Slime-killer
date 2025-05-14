@@ -79,8 +79,9 @@ func check_level_up():
 	if gems_collected >= required_gems:
 		player_level += 1
 		gems_collected = 0
+		SoundManager.level_up()
 		
-		%AbilityMenu.open_menu()
+		%AbilityMenu.open_menu()	
 		if not %AbilityMenu.ability_selected.is_connected(_on_ability_selected):
 			%AbilityMenu.ability_selected.connect(_on_ability_selected)
 		
@@ -124,10 +125,12 @@ func player_take_damage(dmg):
 	health_bar.health_dmg(dmg)
 	if $Hurt.is_stopped():
 		_flash_red()
+		SoundManager.player_take_damage()
 		$Hurt.start()
 
 func add_gem():
 	gems_collected += 1
+	SoundManager.gem_take()
 	check_level_up()
 	update_level_ui()
 
