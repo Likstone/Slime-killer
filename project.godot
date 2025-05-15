@@ -74,7 +74,8 @@ Settings/Show_Tooltips=true
 
 [application]
 
-config/name="Vampire survival like try 1"
+config/name="Slime killer"
+config/tags=PackedStringArray("1", "survivors")
 run/main_scene="uid://crxa4bfmh45tl"
 config/features=PackedStringArray("4.4", "Forward Plus")
 run/max_fps=144
